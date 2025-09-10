@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 
-const Background = () => {
+const Fondo = () => {
   useEffect(() => {
     const body = document.querySelector("body");
-    body.style.margin = "0"; // asegurar que no haya espacio en blanco
-    body.style.transition = "background 0.5s ease";
+    body.style.margin = "0";
+    body.style.height = "100vh";
+    body.style.transition = "background 0.3s ease";
 
     const handleMouseMove = (e) => {
       const x = (e.clientX / window.innerWidth) * 100;
@@ -23,4 +24,4 @@ const Background = () => {
   return null;
 };
 
-export default Background;
+export default Fondo;

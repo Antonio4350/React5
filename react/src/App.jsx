@@ -1,19 +1,16 @@
 import Formulario from "./components/Formulario.jsx";
-import Background from "./components/fondo.jsx";
+import Fondo from "./components/fondo.jsx";
+import './App.css'
 
 function App() {
   return (
-    <div className="relative w-screen h-screen">
-      {/* Fondo dinámico */}
-      <Background />
+    <div className="relative min-h-screen flex items-center justify-center">
+      {/* Fondo */}
+      <Fondo />
 
-      {/* Contenedor centrado */}
-      <div className="absolute inset-0 flex justify-center items-center">
-        <div className="bg-black/70 backdrop-blur-lg p-8 rounded-2xl shadow-lg w-11/12 max-w-md">
-          <Formulario 
-            subirDatos={(usuario) => console.log("Usuario enviado:", usuario)} 
-          />
-        </div>
+      {/* Modal centrado */}
+      <div className="relative z-10 w-full max-w-md p-8 bg-gray-900 rounded-3xl shadow-2xl border border-gray-700">
+        <Formulario />
       </div>
     </div>
   );
