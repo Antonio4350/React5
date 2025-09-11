@@ -224,7 +224,7 @@ function Space()
                         enemiDirection = 1;
                         moveDown = true;
                     }
-                    if(enemigos[i].y > 150) gameOver();
+                    if(enemigos[i].y > 140) gameOver();
                 }
             }
 
