@@ -25,6 +25,9 @@ function Space()
     let dirx=0;
     let puntuacion = 0;
 
+    let izquierda = false;
+    let derecha = false;
+
     // 3. Usa useEffect para manejar la lógica del juego
     useEffect(() => {
         // Asigna los event listeners aquí para que se configuren al montar el componente
@@ -168,7 +171,6 @@ function Space()
     function drawStats()
     {
         for(let i=0; i<player.health; i++) player.drawStatic(5+(i*15), 5, canvas);
-        console.log(puntuacion);
     }
 
     function gameOver()
@@ -190,7 +192,8 @@ function Space()
         {
             canvas.clear();
             drawStats();
-            player.move(dirx, 0, canvas);
+            if(derecha == true) player.move(1, 0, canvas);
+            else if(izquierda == true) player.move(-1, 0, canvas);
             player.update(canvas);
 
             if(player.destroyed == true) gameOver();
@@ -280,28 +283,60 @@ function Space()
     {
         if(event.keyCode === 32) event.preventDefault();
         
-        if(event.keyCode === 32 && canvas.shot >= 20) //Espacio
+        if(event.keyCode === 32) //Espacio
         {
-            canvas.shot = 0;
-            disparar(-1, player.x+4, player.y+2);
+            disparoJugador();
         }
-        else if(event.keyCode === 39 || event.keyCode === 68) //Derecha
+        if(event.keyCode === 39 || event.keyCode === 68) //Derecha
         {
-            dirx = 1;
+            derechaTrue();
         }
-        else if(event.keyCode === 37 || event.keyCode === 65) //Izquierda
+        if(event.keyCode === 37 || event.keyCode === 65) //Izquierda
         {
-            dirx = -1;
+            izquierdaTrue();
         }
         
     }
 
     function teclasSoltadas(event)
     {
-        if(event.keyCode === 39 || event.keyCode === 68 || event.keyCode === 37 || event.keyCode === 65) //Derecha
+        if(event.keyCode === 39 || event.keyCode === 68) //Derecha
         {
-            dirx=0;
+            derechaFalse();
         }
+        if(event.keyCode === 37 || event.keyCode === 65) //Izquierda
+        {
+            izquierdaFalse();
+        }
+    }
+
+    function disparoJugador()
+    {
+        if(canvas.shot >= 20)
+        {
+            canvas.shot = 0;
+            disparar(-1, player.x+4, player.y+2);
+        }
+    }
+
+    function derechaTrue()
+    {
+        derecha = true;
+    }
+
+    function derechaFalse()
+    {
+        derecha = false;
+    }
+
+    function izquierdaTrue()
+    {
+        izquierda = true;
+    }
+
+    function izquierdaFalse()
+    {
+        izquierda = false;
     }
 
     return (
@@ -310,9 +345,9 @@ function Space()
             <button onClick={startGame} id="startButton"  className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 ">Jugar</button>
 
             <div className="flex gap-4 sm:hidden mb-4 ">
-                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Izquierda</button>
-                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Derecha</button>
-                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Disparar</button>
+                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={izquierdaTrue} onTouchEnd={izquierdaFalse}>Izquierda</button>
+                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={derechaTrue} onTouchEnd={derechaFalse}>Derecha</button>
+                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg" onClick={disparoJugador}>Disparar</button>
             </div>
 
             <p id="puntaje" className="text-white text-lg"></p>
