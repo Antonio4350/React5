@@ -26,6 +26,29 @@ function Space()
 
     function startGame()
     {
+        try
+        {
+            canvas.canvas.remove();
+            clearInterval(interval);
+            interval = setInterval(updateGameArea, 20);
+        }
+        catch {}
+        
+        proyectiles = [];
+        barreras = [];
+        enemigos = [];
+        enemiDirection = 1;
+        moveDown = false;
+        columnasEnemigos = 8;
+        filasEnemigos = 5
+        velocidad = 1;
+
+        player = new nave(10, 10, 60, 180, ['./space_3.png'], 5, false);
+        canvas = new gameArea(300, 200);
+
+        dirx=0;
+        puntuacion = 0;
+
         canvas.start();
         document.getElementById('startButton').style.display = 'none';
 
@@ -134,6 +157,7 @@ function Space()
             puntuacion *= 1.5*player.health;
         }
         document.getElementById('puntaje').innerHTML = puntuacion;
+        document.getElementById('startButton').style.display = 'block';
     }
 
     function updateGameArea()
@@ -245,6 +269,7 @@ function Space()
         {
             dirx = -1;
         }
+        
     }
 
     function teclasSoltadas(event)
@@ -257,15 +282,8 @@ function Space()
 
     return (
         <div className="relative w-full h-full flex flex-col items-center">
-            <button 
-                onClick={startGame} 
-                id="startButton" 
-                className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-            >
-                Start
-            </button>
+            <button onClick={startGame} id="startButton" className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Jugar</button>
 
-            {/* Botones solo visibles en mobile */}
             <div className="flex gap-4 sm:hidden mb-4">
                 <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Izquierda</button>
                 <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Derecha</button>
