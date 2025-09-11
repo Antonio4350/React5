@@ -230,6 +230,8 @@ function Space()
 
     function teclasApretadas(event)
     {
+        if(event.keyCode === 32) event.preventDefault();
+        
         if(event.keyCode === 32 && canvas.shot >= 20) //Espacio
         {
             canvas.shot = 0;
@@ -254,12 +256,23 @@ function Space()
     }
 
     return (
-        <div>
-            <button onClick={startGame} id="startButton">Start</button>
-            <button className="botonResponsive">Izquierda</button>
-            <button className="botonResponsive">Derecha</button>
-            <button className="botonResponsive">Disparar</button>
-            <p id="puntaje"></p>
+        <div className="relative w-full h-full flex flex-col items-center">
+            <button 
+                onClick={startGame} 
+                id="startButton" 
+                className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+                Start
+            </button>
+
+            {/* Botones solo visibles en mobile */}
+            <div className="flex gap-4 sm:hidden mb-4">
+                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Izquierda</button>
+                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Derecha</button>
+                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Disparar</button>
+            </div>
+
+            <p id="puntaje" className="text-white text-lg"></p>
         </div>
     )
 }
