@@ -6,13 +6,13 @@ export class gameArea
         this.height = height;
     }
 
-    start()
+    start(container) // Acepta un contenedor como argumento
     {
         this.canvas = document.createElement("canvas");
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        container.appendChild(this.canvas); // Agrega el canvas al contenedor
         this.frameNo = 0;
         this.shot = 10;
     }

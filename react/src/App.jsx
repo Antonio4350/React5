@@ -6,15 +6,16 @@ import './App.css'
 
 function App() {
   return (  
-    <div className="relative min-h-screen flex items-center justify-center fondovi ">
+   
+      <div className=" min-h-screen grid place-items-center fondovi">
       <Fondo />
-      <div >
+      <div > 
         <Routes > 
           <Route path="/" element={<Formulario />}/>
           <Route path="/space" element={<Space />}/>
         </Routes>
       </div>
-    </div>
+    </div> 
   );
 }
 

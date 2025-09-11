@@ -1,9 +1,13 @@
+import { useEffect, useRef } from 'react'; // 1. Importa los hooks necesarios
 import { objeto, proyectil, nave, enemigo } from "./objeto"
-import { gameArea } from "./Canvas";
+import { gameArea } from "./canvas";
 import './spaceInvaders.css'
 
 function Space() 
 {
+    // 2. Crea una referencia para el elemento del DOM que contendrá el canvas
+    const gameContainer = useRef(null);
+
     let proyectiles = [];
     let barreras = [];
 
@@ -16,23 +20,39 @@ function Space()
 
     let player = new nave(10, 10, 60, 180, ['./space_3.png'], 5, false);
     let canvas = new gameArea(300, 200);
-    let interval = setInterval(updateGameArea, 20); //Reloj interno
+    let interval = null; // Cambiado para que sea nulo al inicio
     let started = false;
     let dirx=0;
     let puntuacion = 0;
 
-    document.addEventListener('keydown', teclasApretadas);
-    document.addEventListener('keyup', teclasSoltadas);
+    // 3. Usa useEffect para manejar la lógica del juego
+    useEffect(() => {
+        // Asigna los event listeners aquí para que se configuren al montar el componente
+        document.addEventListener('keydown', teclasApretadas);
+        document.addEventListener('keyup', teclasSoltadas);
+        
+        // Limpia el intervalo y los listeners cuando el componente se desmonte
+        return () => {
+            clearInterval(interval);
+            document.removeEventListener('keydown', teclasApretadas);
+            document.removeEventListener('keyup', teclasSoltadas);
+        };
+    }, []);
 
     function startGame()
     {
         try
         {
-            canvas.canvas.remove();
+            // 4. Se asegura de que el canvas exista antes de intentar removerlo
+            if (canvas.canvas) {
+                canvas.canvas.remove();
+            }
             clearInterval(interval);
             interval = setInterval(updateGameArea, 20);
         }
-        catch {}
+        catch (e) {
+            console.error("Error al reiniciar el juego:", e);
+        }
         
         proyectiles = [];
         barreras = [];
@@ -49,7 +69,9 @@ function Space()
         dirx=0;
         puntuacion = 0;
 
-        canvas.start();
+        // 5. Llama a canvas.start() y le pasa la referencia del contenedor
+        // Esto asegura que el canvas se cree dentro del div de React
+        canvas.start(gameContainer.current); 
         document.getElementById('startButton').style.display = 'none';
 
         for(let i=0; i<filasEnemigos; i++)
@@ -156,8 +178,10 @@ function Space()
         {
             puntuacion *= 1.5*player.health;
         }
+        //esto aparece cuando perder, agragar todo lo que quiera mostrar a la hora de perder
         document.getElementById('puntaje').innerHTML = puntuacion;
         document.getElementById('startButton').style.display = 'block';
+
     }
 
     function updateGameArea()
@@ -281,11 +305,12 @@ function Space()
     }
 
     return (
-        <div className="relative w-full h-full flex flex-col items-center ">
+        // 6. Asigna la referencia `gameContainer` al div que contendrá el canvas
+        <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center"> 
             <button onClick={startGame} id="startButton"  className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 ">Jugar</button>
 
             <div className="flex gap-4 sm:hidden mb-4 ">
-                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg ">Izquierda</button>
+                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Izquierda</button>
                 <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Derecha</button>
                 <button className="px-4 py-2 bg-gray-700 text-white rounded-lg">Disparar</button>
             </div>
