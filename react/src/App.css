@@ -1,1 +1,38 @@
 @import "tailwindcss";
+:root {
+  --crt-red: rgba(255, 0, 0, 0.6);
+  --crt-green: rgba(0, 255, 0, 0.6);
+  --crt-blue: rgba(0, 0, 255, 0.6);
+}
+
+
+.fondovi{
+  position:static;
+  &:before,&:after {
+    content: "";
+    pointer-events: none;
+    mix-blend-mode:overlay;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+  }
+
+  &:before {
+    background: repeating-linear-gradient(
+      var(--crt-red) 2px,
+      var(--crt-green) 6px,
+      var(--crt-blue) 8px
+    );
+  }
+  &:after {
+    background: repeating-linear-gradient(
+      90deg,
+      var(--crt-red) 19px,
+      var(--crt-green) 19px,
+      var(--crt-blue) 19px
+    );
+  }
+}
