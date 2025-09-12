@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react'; // 1. Importa los hooks necesarios
+import { useEffect, useRef } from 'react'; // Importa los hooks necesarios
 import { objeto, proyectil, nave, enemigo } from "../objeto"
 import { gameArea } from "../canvas";
 import './spaceInvaders.css'
 
 function Space() 
 {
-    // 2. Crea una referencia para el elemento del DOM que contendrá el canvas
+    // Crea una referencia para el elemento del DOM que contendrá el canvas
     const gameContainer = useRef(null);
 
     let proyectiles = [];
@@ -28,9 +28,8 @@ function Space()
     let izquierda = false;
     let derecha = false;
 
-    // 3. Usa useEffect para manejar la lógica del juego
+    // Usa useEffect para manejar la lógica del juego
     useEffect(() => {
-        // Asigna los event listeners aquí para que se configuren al montar el componente
         document.addEventListener('keydown', teclasApretadas);
         document.addEventListener('keyup', teclasSoltadas);
         
@@ -46,7 +45,7 @@ function Space()
     {
         try
         {
-            // 4. Se asegura de que el canvas exista antes de intentar removerlo
+            //Se asegura de que el canvas exista antes de intentar removerlo
             if (canvas.canvas) {
                 canvas.canvas.remove();
             }
@@ -72,7 +71,7 @@ function Space()
         dirx=0;
         puntuacion = 0;
 
-        // 5. Llama a canvas.start() y le pasa la referencia del contenedor
+        // Llama a canvas.start() y le pasa la referencia del contenedor
         // Esto asegura que el canvas se cree dentro del div de React
         canvas.start(gameContainer.current); 
         document.getElementById('startButton').style.display = 'none';
@@ -279,6 +278,7 @@ function Space()
         }
     }
 
+    //Controles
     function teclasApretadas(event)
     {
         if(event.keyCode === 32) event.preventDefault();
@@ -295,7 +295,6 @@ function Space()
         {
             izquierdaTrue();
         }
-        
     }
 
     function teclasSoltadas(event)
@@ -319,25 +318,10 @@ function Space()
         }
     }
 
-    function derechaTrue()
-    {
-        derecha = true;
-    }
-
-    function derechaFalse()
-    {
-        derecha = false;
-    }
-
-    function izquierdaTrue()
-    {
-        izquierda = true;
-    }
-
-    function izquierdaFalse()
-    {
-        izquierda = false;
-    }
+    function derechaTrue(){derecha = true;}
+    function derechaFalse(){derecha = false;}
+    function izquierdaTrue(){izquierda = true;}
+    function izquierdaFalse(){izquierda = false;}
 
     return (
         // 6. Asigna la referencia `gameContainer` al div que contendrá el canvas

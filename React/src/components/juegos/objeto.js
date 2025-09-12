@@ -33,6 +33,12 @@ export class objeto
         else if(newy < 0 && this.y > 0) this.y += newy;
     }
 
+    unlimitedMove(newx, newy)
+    {
+        this.x += newx;
+        this.y += newy;
+    }
+
     colisiona(otherobj) 
     {
         let myleft = this.x;
