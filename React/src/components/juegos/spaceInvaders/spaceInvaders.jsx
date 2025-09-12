@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'; // 1. Importa los hooks necesarios
-import { objeto, proyectil, nave, enemigo } from "./objeto"
-import { gameArea } from "./canvas";
+import { objeto, proyectil, nave, enemigo } from "../objeto"
+import { gameArea } from "../canvas";
 import './spaceInvaders.css'
 
 function Space() 
