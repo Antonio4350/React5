@@ -1,5 +1,6 @@
 import './1942.css'
 import { objeto, proyectil, nave, enemigo } from "../objeto"
+import { escuadron } from './escuadron';
 import { gameArea } from "../canvas";
 import { useEffect, useRef } from 'react';
 
@@ -13,12 +14,16 @@ function Guerra()
     let started = false;
 
     let proyectiles = [];
-    let disparoActual = 1;
+    let disparoActual;
+    let cooldown = 15;
 
     let izquierda = false;
     let derecha = false;
     let arriba = false;
     let abajo = false;
+
+    //Escuadrones
+    let escuadronIzquierdo = new escuadron([new enemigo(10, 10, 0, 200, ['./space_1a.png', './space_1b.png', './space_1c.png'], 1, false, 2)], [[1,-1], [0,0], [-1,-1]], [40, 80, 40]);
 
     useEffect(() => {
         document.addEventListener('keydown', teclasApretadas);
@@ -52,10 +57,16 @@ function Guerra()
 
         proyectiles = [];
         disparoActual = 1;
+        cooldown = 15;
 
         canvas.start(gameContainer.current); 
         document.getElementById('startButton').style.display = 'none';
         started = true;
+    }
+
+    function disparar(direction, x, y)
+    {
+        proyectiles.push(new proyectil(2, 2, x, y, "white", direction));
     }
 
     function updateGameArea()
@@ -73,50 +84,104 @@ function Guerra()
 
             player.move(x, y, canvas);
             player.update(canvas);
+
+            for(let i=0; i<proyectiles.length; i++)
+            {
+                proyectiles[i].move(proyectiles[i].direction[0]*2, proyectiles[i].direction[1]*2, canvas);
+                proyectiles[i].update(canvas);
+
+                //Revisa si alguno impacto
+                if(proyectiles[i].y < 5 || proyectiles[i].y > canvas.height-10)
+                {
+                    proyectiles.splice(i,1);
+                    i--;
+                }
+            }
+
+            canvas.frameNo++;
+            canvas.shot++;
+
+            escuadronIzquierdo.updateEscuadron(canvas);
+
+            if(pressedKeys.has(' ')) //Espacio
+            {
+                disparoJugador();
+            }
         }
     }
 
+    const pressedKeys = new Set();
     function teclasApretadas(event)
     {
+        pressedKeys.add(event.key);
         if(event.keyCode === 32) event.preventDefault();
         
-        if(event.keyCode === 32) //Espacio
-        {
-            disparoJugador();
-        }
-        if(event.keyCode === 39 || event.keyCode === 68)
+        if(pressedKeys.has('ArrowRight') || pressedKeys.has('D'))
         {
             derechaTrue();
         }
-        if(event.keyCode === 37 || event.keyCode === 65)
+        else
+        {
+            derechaFalse();
+        }
+        if(pressedKeys.has('ArrowLeft') || pressedKeys.has('A'))
         {
             izquierdaTrue();
         }
-        if(event.keyCode === 40 || event.keyCode === 83)
+        else
+        {
+            izquierdaFalse();
+        }
+        if(pressedKeys.has('ArrowDown') || pressedKeys.has('S'))
         {
             abajoTrue();
         }
-        if(event.keyCode === 38 || event.keyCode === 87)
+        else
+        {
+            abajoFalse();
+        }
+        if(pressedKeys.has('ArrowUp') || pressedKeys.has('W'))
         {
             arribaTrue();
+        }
+        else
+        {
+            arribaFalse();
         }
     }
 
     function teclasSoltadas(event)
     {
-        if(event.keyCode === 39 || event.keyCode === 68)
+        pressedKeys.delete(event.key);
+        if(pressedKeys.has('ArrowRight') || pressedKeys.has('D'))
+        {
+            derechaTrue();
+        }
+        else
         {
             derechaFalse();
         }
-        if(event.keyCode === 37 || event.keyCode === 65)
+        if(pressedKeys.has('ArrowLeft') || pressedKeys.has('A'))
+        {
+            izquierdaTrue();
+        }
+        else
         {
             izquierdaFalse();
         }
-        if(event.keyCode === 40 || event.keyCode === 83)
+        if(pressedKeys.has('ArrowDown') || pressedKeys.has('S'))
+        {
+            abajoTrue();
+        }
+        else
         {
             abajoFalse();
         }
-        if(event.keyCode === 38 || event.keyCode === 87)
+        if(pressedKeys.has('ArrowUp') || pressedKeys.has('W'))
+        {
+            arribaTrue();
+        }
+        else
         {
             arribaFalse();
         }
@@ -124,7 +189,31 @@ function Guerra()
 
     function disparoJugador()
     {
-
+        if(canvas.shot >= cooldown)
+        {
+            canvas.shot = 0;
+            switch(disparoActual)
+            {
+                case 1:
+                    disparar([0,-1], player.x+4, player.y);
+                    break;
+                case 2:
+                    disparar([0,-1], player.x+1, player.y);
+                    disparar([0,-1], player.x+7, player.y);
+                    break;
+                case 3:
+                    disparar([-0.3,-1], player.x, player.y);
+                    disparar([0,-1], player.x+4, player.y);
+                    disparar([0.3,-1], player.x+8, player.y);
+                    break;
+                case 4:
+                    disparar([-0.3,-1], player.x, player.y);
+                    disparar([0,-1], player.x+1, player.y);
+                    disparar([0,-1], player.x+7, player.y);
+                    disparar([0.3,-1], player.x+8, player.y);
+                    break;
+            }
+        }
     }
 
     function derechaTrue(){derecha = true;}
