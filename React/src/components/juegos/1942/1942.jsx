@@ -1,6 +1,6 @@
 import './1942.css'
 import { objeto, proyectil, nave, enemigo } from "../objeto"
-import { escuadron } from './escuadron';
+import { escuadron, formacion } from './escuadron';
 import { gameArea } from "../canvas";
 import { useEffect, useRef } from 'react';
 
@@ -22,8 +22,7 @@ function Guerra()
     let arriba = false;
     let abajo = false;
 
-    //Escuadrones
-    let escuadronIzquierdo = new escuadron([new enemigo(10, 10, 0, 200, ['./space_1a.png', './space_1b.png', './space_1c.png'], 1, false, 2)], [[1,-1], [0,0], [-1,-1]], [40, 80, 40]);
+    let escuadrones = [];
 
     useEffect(() => {
         document.addEventListener('keydown', teclasApretadas);
@@ -59,14 +58,23 @@ function Guerra()
         disparoActual = 1;
         cooldown = 15;
 
+        crearEscuadrones();
+
         canvas.start(gameContainer.current); 
         document.getElementById('startButton').style.display = 'none';
         started = true;
     }
 
-    function disparar(direction, x, y)
+    function crearEscuadrones()
     {
-        proyectiles.push(new proyectil(2, 2, x, y, "white", direction));
+        escuadrones = [];
+        escuadrones.push(new formacion(new escuadron(2,3,1), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 10, 140, 10, 60], 0, 200));
+        escuadrones.push(new formacion(new escuadron(3,1,1), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0));
+    }
+
+    function disparar(direction, x, y, isplayer)
+    {
+        proyectiles.push(new proyectil(2, 2, x, y, "white", direction, isplayer));
     }
 
     function updateGameArea()
@@ -85,13 +93,29 @@ function Guerra()
             player.move(x, y, canvas);
             player.update(canvas);
 
+            let escuadronesActivos = 0;
+            for(let i=0; i<escuadrones.length; i++)
+            {
+                if(escuadrones[i].iniciado == true)
+                {
+                    escuadronesActivos++;
+                    escuadrones[i].updateFormacion(canvas);
+                }
+            }
+            
+            if(escuadronesActivos == 0)
+            {
+                let rand = Math.floor(Math.random() * escuadrones.length);
+                escuadrones[rand].iniciarAtaque();
+            } 
+
             for(let i=0; i<proyectiles.length; i++)
             {
-                proyectiles[i].move(proyectiles[i].direction[0]*2, proyectiles[i].direction[1]*2, canvas);
+                proyectiles[i].unlimitedMove(proyectiles[i].direction[0]*2, proyectiles[i].direction[1]*2, canvas);
                 proyectiles[i].update(canvas);
 
                 //Revisa si alguno impacto
-                if(proyectiles[i].y < 5 || proyectiles[i].y > canvas.height-10)
+                if(proyectiles[i].y < 0 || proyectiles[i].y > canvas.height || proyectiles[i].x < 0 || proyectiles[i].x > canvas.width || detectarColision(proyectiles[i]))
                 {
                     proyectiles.splice(i,1);
                     i--;
@@ -101,11 +125,48 @@ function Guerra()
             canvas.frameNo++;
             canvas.shot++;
 
-            escuadronIzquierdo.updateEscuadron(canvas);
+            if(canvas.frameNo >= 50)
+            {
+                canvas.frameNo=0;
+                for(let i=0; i<escuadrones.length; i++)
+                {
+                    if(escuadrones[i].iniciado == true)
+                    {
+                        escuadrones[i].escua.disparar(player.x, player.y, disparar);
+                    }
+                }
+            }
 
             if(pressedKeys.has(' ')) //Espacio
             {
                 disparoJugador();
+            }
+        }
+    }
+
+    function detectarColision(pro)
+    {
+        if(pro.isPlayer == false)
+        {
+            if(player.colisiona(pro)) return true;
+        }
+        else
+        {
+            for(let i=0; i<escuadrones.length; i++)
+            {
+                if(escuadrones[i].iniciado == true)
+                {
+                    for(let j=0; j<escuadrones[i].escua.naves.length; j++)
+                    {
+                        if(escuadrones[i].escua.naves[j].destroyed == false)
+                        {
+                            if(escuadrones[i].escua.naves[j].colisiona(pro))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -195,22 +256,22 @@ function Guerra()
             switch(disparoActual)
             {
                 case 1:
-                    disparar([0,-1], player.x+4, player.y);
+                    disparar([0,-1], player.x+4, player.y, true);
                     break;
                 case 2:
-                    disparar([0,-1], player.x+1, player.y);
-                    disparar([0,-1], player.x+7, player.y);
+                    disparar([0,-1], player.x+1, player.y, true);
+                    disparar([0,-1], player.x+7, player.y, true);
                     break;
                 case 3:
-                    disparar([-0.3,-1], player.x, player.y);
-                    disparar([0,-1], player.x+4, player.y);
-                    disparar([0.3,-1], player.x+8, player.y);
+                    disparar([-0.3,-1], player.x, player.y, true);
+                    disparar([0,-1], player.x+4, player.y, true);
+                    disparar([0.3,-1], player.x+8, player.y, true);
                     break;
                 case 4:
-                    disparar([-0.3,-1], player.x, player.y);
-                    disparar([0,-1], player.x+1, player.y);
-                    disparar([0,-1], player.x+7, player.y);
-                    disparar([0.3,-1], player.x+8, player.y);
+                    disparar([-0.3,-1], player.x, player.y, true);
+                    disparar([0,-1], player.x+1, player.y, true);
+                    disparar([0,-1], player.x+7, player.y, true);
+                    disparar([0.3,-1], player.x+8, player.y, true);
                     break;
             }
         }

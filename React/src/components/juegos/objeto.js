@@ -66,10 +66,11 @@ export class objeto
 
 export class proyectil extends objeto
 {
-    constructor(width, height, x, y, color, direction)
+    constructor(width, height, x, y, color, direction, isPlayer)
     {
         super(width, height, x, y, color);
         this.direction = direction;
+        this.isPlayer = isPlayer;
     }
 }
 
