@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react'; // Importa los hooks necesarios
 import { objeto, proyectil, nave, enemigo } from "../objeto"
 import { gameArea } from "../canvas";
 import './spaceInvaders.css'
+import { useState } from "react";
+import PantallaPerdiste from '../../pantallaPerdiste';
 
 function Space() 
 {
@@ -27,6 +29,9 @@ function Space()
 
     let izquierda = false;
     let derecha = false;
+
+    const [gameOverScreen, setGameOverScreen] = useState(false);
+    const [finalScore, setFinalScore] = useState(0);
 
     // Usa useEffect para manejar la lógica del juego
     useEffect(() => {
@@ -179,10 +184,9 @@ function Space()
         {
             puntuacion *= 1.5*player.health;
         }
-        //esto aparece cuando perder, agragar todo lo que quiera mostrar a la hora de perder
-        document.getElementById('puntaje').innerHTML = puntuacion;
-        document.getElementById('startButton').style.display = 'block';
 
+        setFinalScore(puntuacion);
+        setGameOverScreen(true);
     }
 
     function updateGameArea()
@@ -326,15 +330,23 @@ function Space()
     return (
         // Asigna la referencia `gameContainer` al div que contendrá el canvas
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center"> 
-            <button onClick={startGame} id="startButton"  className="mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 ">Jugar</button>
+            <button onClick={startGame} id="startButton"  className="relative z-10 mb-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 ">Jugar</button>
 
             <div className="flex gap-4 sm:hidden mb-4 ">
-                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={izquierdaTrue} onTouchEnd={izquierdaFalse}>Izquierda</button>
-                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={derechaTrue} onTouchEnd={derechaFalse}>Derecha</button>
-                <button className="px-4 py-2 bg-gray-700 text-white rounded-lg" onClick={disparoJugador}>Disparar</button>
+                <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={izquierdaTrue} onTouchEnd={izquierdaFalse}>Izquierda</button>
+                <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={derechaTrue} onTouchEnd={derechaFalse}>Derecha</button>
+                <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onClick={disparoJugador}>Disparar</button>
             </div>
 
-            <p id="puntaje" className="text-white text-lg"></p>
+            {gameOverScreen && (
+  <PantallaPerdiste
+    score={finalScore}
+    onRestart={() => {
+      setGameOverScreen(false);
+      window.location.reload(); // Reinicia la página/juego
+    }}
+  />
+)}
         </div>
     )
 }
