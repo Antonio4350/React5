@@ -64,11 +64,20 @@ export class escuadron
             }
         }
     }
+
+    allDestroyed()
+    {
+        for(let i=0; i<this.naves.length; i++)
+        {
+            if(this.naves[i].destroyed == false) return false;
+        }
+        return true;
+    }
 }
 
 export class formacion
 {
-    constructor(escua, direcciones, cooldown, x, y)
+    constructor(escua, direcciones, cooldown, x, y, bucle)
     {
         this.escua = escua;
         this.dirActual = 0;
@@ -78,6 +87,7 @@ export class formacion
         this.iniciado = false;
         this.x = x;
         this.y = y;
+        this.bucle = bucle;
     }
 
     iniciarAtaque()
@@ -94,8 +104,17 @@ export class formacion
         this.tiempoActual++;
         if(this.tiempoActual > this.cooldown[this.dirActual])
         {
-            if(this.dirActual < this.direcciones.length-1) this.dirActual++;
-            else this.iniciado = false;
+            if(this.dirActual < this.direcciones.length-1 && this.escua.allDestroyed() == false) this.dirActual++;
+            else
+            {
+                if(this.bucle == true && this.escua.allDestroyed() == false)
+                {
+                    this.dirActual = 0;
+                    this.tiempoActual = 0;
+                    this.escua.setPosition(this.x,this.y);
+                }
+                else this.iniciado = false;
+            }
             this.tiempoActual = 0;
         }
 

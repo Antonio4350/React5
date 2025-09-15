@@ -68,8 +68,8 @@ function Guerra()
     function crearEscuadrones()
     {
         escuadrones = [];
-        escuadrones.push(new formacion(new escuadron(2,3,1), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 10, 140, 10, 60], 0, 200));
-        escuadrones.push(new formacion(new escuadron(3,1,1), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0));
+        escuadrones.push(new formacion(new escuadron(2,3,1), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 10, 140, 10, 60], 0, 200, true));
+        escuadrones.push(new formacion(new escuadron(3,1,1), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0, false));
     }
 
     function disparar(direction, x, y, isplayer)
