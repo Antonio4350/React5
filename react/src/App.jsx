@@ -15,7 +15,7 @@ function App() {
         <Routes > 
           <Route path="/" element={<Formulario />}/>
           <Route path="/space" element={<Space />}/>
-          <Route path="/1942" element={<Guerra />}/>
+          <Route path="/guerra" element={<Guerra />}/>
           <Route path="/pantallajuegos" element={<PantallaJuegos />} />
         </Routes>
       </div>

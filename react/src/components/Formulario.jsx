@@ -44,8 +44,7 @@ export default function Formulario() {
         setError(data.error);
       } else {
         if (modo === "login") {
-          // ✅ Si el login es exitoso, redirige a PantallaJuegos
-          navigate("/pantallajuegos");
+          navigate("/pantallajuegos"); // redirige si login exitoso
         } else {
           setMensaje(`Usuario ${data.nombre} creado`);
           setForm({ nombre: "", password: "", repetir: "" });
@@ -57,52 +56,52 @@ export default function Formulario() {
   };
 
   return (
-    <div className="relative z-10 w-full max-w-md p-8 bg-gray-900 rounded-3xl shadow-2xl border border-gray-700">
-      <div className="flex flex-col items-center w-full">
-        <h2 className="text-3xl font-bold text-white mb-6 text-center">
-          {modo === "login" ? "Login Jugador" : "Crear Usuario"}
+    <div className="absolute inset-0 flex items-center justify-center z-20">
+      <div className="bg-black/90 border-4 border-white p-8 text-center shadow-lg animate-scaleIn max-w-md w-full">
+        <h2 className="text-4xl font-bold text-white mb-6 tracking-widest retro-text">
+          {modo === "login" ? "LOGIN JUGADOR" : "CREAR USUARIO"}
         </h2>
 
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col space-y-5 bg-gray-800 p-6 rounded-2xl shadow-inner"
+          className="w-full flex flex-col space-y-5 bg-black/80 p-6 rounded-xl shadow-inner border-2 border-white"
         >
           {error && (
-            <p className="text-red-500 font-medium text-center">{error}</p>
+            <p className="text-red-500 font-bold text-center">{error}</p>
           )}
           {mensaje && (
-            <p className="text-green-400 font-medium text-center">{mensaje}</p>
+            <p className="text-green-400 font-bold text-center">{mensaje}</p>
           )}
 
           <div className="flex flex-col">
-            <label className="text-gray-200 font-medium mb-1">Nombre</label>
+            <label className="text-white font-semibold mb-1">Nombre</label>
             <input
               type="text"
               name="nombre"
               placeholder="Tu nombre"
               value={form.nombre}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white transition"
               required
             />
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-200 font-medium mb-1">Contraseña</label>
+            <label className="text-white font-semibold mb-1">Contraseña</label>
             <input
               type="password"
               name="password"
               placeholder="Tu contraseña"
               value={form.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white transition"
               required
             />
           </div>
 
           {modo === "crear" && (
             <div className="flex flex-col">
-              <label className="text-gray-200 font-medium mb-1">
+              <label className="text-white font-semibold mb-1">
                 Repetir contraseña
               </label>
               <input
@@ -111,7 +110,7 @@ export default function Formulario() {
                 placeholder="Repetir contraseña"
                 value={form.repetir}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white transition"
                 required
               />
             </div>
@@ -119,9 +118,9 @@ export default function Formulario() {
 
           <button
             type="submit"
-            className="w-full py-3 mt-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 active:scale-95 transition"
+            className="w-full py-3 mt-2 rounded-xl bg-black text-white font-bold border-2 border-white hover:bg-white hover:text-black transition"
           >
-            {modo === "login" ? "Login" : "Crear Usuario"}
+            {modo === "login" ? "LOGIN" : "CREAR"}
           </button>
         </form>
 
@@ -132,7 +131,7 @@ export default function Formulario() {
             setMensaje("");
             setForm({ nombre: "", password: "", repetir: "" });
           }}
-          className="mt-4 text-blue-400 hover:underline transition"
+          className="mt-4 text-white font-bold hover:underline transition"
         >
           {modo === "login" ? "Crear un nuevo usuario" : "Volver al login"}
         </button>
