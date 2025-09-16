@@ -82,14 +82,14 @@ function Guerra()
     function crearEscuadrones()
     {
         escuadrones = [];
-        escuadrones.push(new formacion(new escuadron(2,3,1,false,30), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 40, 140, 40, 60], 0, 200, false));
-        escuadrones.push(new formacion(new escuadron(2,3,1,false,30), [[-1,-1], [0,0], [0,-1], [0,0], [1,-1]], [40, 40, 140, 40, 60], 300, 200, false));
+        escuadrones.push(new formacion(new escuadron(2,3,1,false,30,0), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 40, 140, 40, 60], 0, 200, false));
+        escuadrones.push(new formacion(new escuadron(2,3,1,false,30,0), [[-1,-1], [0,0], [0,-1], [0,0], [1,-1]], [40, 40, 140, 40, 60], 300, 200, false));
         
-        escuadrones.push(new formacion(new escuadron(3,1,1,false,20), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0, false));
-        escuadrones.push(new formacion(new escuadron(3,1,1,false,20), [[1,1], [0,0], [1,0], [0,0], [1,-1]], [40, 10, 240, 10, 60], 0, 0, false));
+        escuadrones.push(new formacion(new escuadron(3,1,1,false,20,1), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0, false));
+        escuadrones.push(new formacion(new escuadron(3,1,1,false,20,1), [[1,1], [0,0], [1,0], [0,0], [1,-1]], [40, 10, 240, 10, 60], 0, 0, false));
 
-        escuadrones.push(new formacion(new escuadron(5,1,1,false,20), [[1,0]], [400], -100, 100, false));
-        escuadrones.push(new formacion(new escuadron(5,1,1,false,20), [[-1,0]], [400], 300, 100, false));
+        escuadrones.push(new formacion(new escuadron(5,1,1,false,20,2), [[1,0]], [400], -100, 100, false));
+        escuadrones.push(new formacion(new escuadron(5,1,1,false,20,2), [[-1,0]], [400], 300, 100, false));
         //Jefe
         escuadrones.push(new formacion(new boss(50), [[0,1], [0,0], [-1,0], [1,0], [-1,0], [0,0], [0,-1]], [100, 200, 100, 200, 100, 200, 100], 110, -80, true));
     }
@@ -204,6 +204,13 @@ function Guerra()
             }
 
             canvas.frameNo++;
+            if(canvas.frameNo == 20)
+            {
+                for(let i=0; i<escuadrones.length; i++)
+                {
+                    if(escuadrones[i].iniciado == true) escuadrones[i].escua.updateAnimations();
+                }
+            }
 
             if(canvas.frameNo >= 50)
             {

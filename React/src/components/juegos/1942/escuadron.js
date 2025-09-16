@@ -2,7 +2,7 @@ import { objeto, proyectil, nave, enemigo } from "../objeto"
 
 export class escuadron
 {
-    constructor(filas, columnas, health, especial, puntuacion)
+    constructor(filas, columnas, health, especial, puntuacion, sprite)
     {
         if(especial == false)
         {
@@ -15,7 +15,7 @@ export class escuadron
             {
                 for(let j=0; j<columnas; j++)
                 {
-                    this.naves.push(new enemigo(10, 10, (20*j), (15*i), ['./space_0a.png', './space_0b.png', './space_0c.png'], health, false, 5, puntuacion));
+                    this.naves.push(new enemigo(10, 10, (20*j), (15*i), [`./space_${sprite}a.png`, `./space_${sprite}b.png`, `./space_${sprite}c.png`], health, false, 5, puntuacion));
                 }
             }
         }
@@ -67,6 +67,11 @@ export class escuadron
         }
     }
 
+    updateAnimations()
+    {
+        for(let i=0; i<this.naves.length; i++) this.naves[i].updateAnimation();
+    }
+
     allDestroyed()
     {
         for(let i=0; i<this.naves.length; i++)
@@ -81,7 +86,7 @@ export class boss extends escuadron
 {
     constructor(health)
     {
-        super(0,0, health, true);
+        super(0,0, health, true, '');
         this.health = health;
         this.naves = [];
         this.width = 80;

@@ -7,8 +7,8 @@ const arriba = ({ jugador1, jugador2 }) => {
     </div>
 
     <div className="flex items-center gap-4">
-        <a href="http://localhost:5173/" className="hover:text-red-500 transition">menu</a>
-        <a href="http://localhost:5173/pantallajuegos" className="hover:text-gray-500 transition">lista de juegos</a>
+        <a href="http://localhost:5173/" className="hover:text-red-500 transition">Inicio de Sesion</a>
+        <a href="http://localhost:5173/pantallajuegos" className="hover:text-gray-500 transition">Juegos</a>
     </div>
 
     <div className="flex items-center gap-2">
