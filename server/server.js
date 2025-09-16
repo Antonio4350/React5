@@ -25,7 +25,7 @@ app.post("/usuarios", async (req, res) => {
       [nombre, password]
     );
 
-    res.json(result.rows[0]); // devuelve {id, nombre}
+    res.json(result.rows[0]); // {id, nombre}
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "No se pudo comunicar con la base de datos" });
@@ -55,7 +55,104 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Iniciar servidor
+// Guardar puntuación Space
+app.post("/space", async (req, res) => {
+  const { idusuario, puntuacion } = req.body;
+  if (!idusuario || puntuacion == null)
+    return res.status(400).json({ error: "Faltan datos" });
+
+  try {
+    const result = await pool.query(
+      "INSERT INTO space (idusuario, puntuacion) VALUES ($1, $2) RETURNING *",
+      [idusuario, puntuacion]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error guardando puntuación" });
+  }
+});
+
+// Top 10 Space
+app.get("/space/top", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT u.nombre, s.puntuacion
+      FROM space s
+      JOIN usuarios u ON u.id = s.idusuario
+      ORDER BY s.puntuacion DESC
+      LIMIT 10
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error consultando top" });
+  }
+});
+
+// Puntuaciones de un usuario en Space
+app.get("/space/user/:id", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT puntuacion, fecha FROM space WHERE idusuario = $1 ORDER BY fecha DESC",
+      [req.params.id]
+    );
+    res.json(result.rows.length ? result.rows : null);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error consultando puntuaciones" });
+  }
+});
+
+// Guardar puntuación Guerra
+app.post("/guerra", async (req, res) => {
+  const { idusuario, puntuacion } = req.body;
+  if (!idusuario || puntuacion == null)
+    return res.status(400).json({ error: "Faltan datos" });
+
+  try {
+    const result = await pool.query(
+      "INSERT INTO guerra (idusuario, puntuacion) VALUES ($1, $2) RETURNING *",
+      [idusuario, puntuacion]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error guardando puntuación" });
+  }
+});
+
+// Top 10 Guerra
+app.get("/guerra/top", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT u.nombre, g.puntuacion
+      FROM guerra g
+      JOIN usuarios u ON u.id = g.idusuario
+      ORDER BY g.puntuacion DESC
+      LIMIT 10
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error consultando top" });
+  }
+});
+
+// Puntuaciones de un usuario en Guerra
+app.get("/guerra/user/:id", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT puntuacion, fecha FROM guerra WHERE idusuario = $1 ORDER BY fecha DESC",
+      [req.params.id]
+    );
+    res.json(result.rows.length ? result.rows : null);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error consultando puntuaciones" });
+  }
+});
+
 app.listen(3001, () =>
   console.log("Servidor escuchando en http://localhost:3001")
 );
