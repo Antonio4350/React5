@@ -87,7 +87,7 @@ export class boss extends escuadron
         this.width = 80;
         this.height = 80;
 
-        this.naves.push(new enemigo(this.width, this.height, 0, 0, ['./space_0a.png', './space_0b.png', './space_0c.png'], health, false, 5, 500));
+        this.naves.push(new enemigo(this.width, this.height, 0, 0, ['./boss.png'], health, false, 5, 500));
     }
 
     disparar(obX, obY, disparar)
