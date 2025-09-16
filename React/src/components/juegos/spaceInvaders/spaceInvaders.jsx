@@ -331,7 +331,7 @@ function Space()
         // Asigna la referencia `gameContainer` al div que contendrá el canvas
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center"> 
             <button onClick={startGame} id="startButton"  className="relative z-10 bg-black text-white font-bold px-6 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar</button>
-
+            <p>aaa</p>
             <div className="flex gap-4 sm:hidden mb-4 ">
                 <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={izquierdaTrue} onTouchEnd={izquierdaFalse}>Izquierda</button>
                 <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={derechaTrue} onTouchEnd={derechaFalse}>Derecha</button>
