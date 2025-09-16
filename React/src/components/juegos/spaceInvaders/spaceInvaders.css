@@ -4,3 +4,13 @@ canvas {
     width: 60vw;
     image-rendering: pixelated;
 }
+.fondo{
+    filter: blur(2px);
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+      max-width: 100%;
+      height: auto;
+}
