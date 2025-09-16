@@ -18,12 +18,12 @@ export default function PantallaJuegos() {
           {/* Juego Space */}
           <Link
             to="/space"
-            className="group flex flex-col items-center border-2 border-white p-6 rounded-lg bg-black hover:bg-white transition"
+            className="group flex flex-col items-center border-2 border-white p-4 rounded-lg bg-black hover:bg-white transition"
           >
             <img
-              src="/images/space.png"
+              src="./fondoSpace.png"
               alt="Space Game"
-              className="w-40 h-40 object-contain mb-4 group-hover:scale-110 transition"
+              className="w-90 h-90 object-contain mb-2 group-hover:scale-110 transition"
             />
             <span className="text-white group-hover:text-black retro-text">
               SPACE GAME
@@ -33,12 +33,12 @@ export default function PantallaJuegos() {
           {/* Juego Guerra */}
           <Link
             to="/guerra"
-            className="group flex flex-col items-center border-2 border-white p-6 rounded-lg bg-black hover:bg-white transition"
+            className="group flex flex-col items-center border-2 border-white p-4 rounded-lg bg-black hover:bg-white transition"
           >
             <img
-              src="/images/guerra.png"
+              src="./integrales4.png"
               alt="Guerra Game"
-              className="w-40 h-40 object-contain mb-4 group-hover:scale-110 transition"
+              className="w-90 h-90 object-contain mb-2 group-hover:scale-110 transition"
             />
             <span className="text-white group-hover:text-black retro-text">
               GUERRA GAME

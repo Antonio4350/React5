@@ -469,9 +469,9 @@ function Guerra()
     }
 
     return (  
-        <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center"> 
-            <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="relative z-10 bg-black text-white font-bold px-6 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
-            <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2"  className="relative z-10 bg-black text-white font-bold px-6 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>
+        <div ref={gameContainer} className="relative w-full h-full flex flex-row items-center gap-10"> 
+            <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="relative z-10 bg-black text-white font-bold px-12 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
+            <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2"  className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>
             {gameOverScreen && (<PantallaPerdiste score={finalScore}
                 onRestart={() => {
                 setGameOverScreen(false);
