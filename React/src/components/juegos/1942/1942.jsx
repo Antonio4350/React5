@@ -68,7 +68,7 @@ function Guerra()
 
         crearEscuadrones();
 
-        canvas.start(gameContainer.current); 
+        canvas.start(gameContainer.current, 'warCanvas'); 
         document.getElementById('startButton').style.display = 'none';
         started = true;
     }
