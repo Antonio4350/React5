@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CONFIG from "../config";
 
 export default function Formulario() {
-  const [modo, setModo] = useState("login"); // 'login' o 'crear'
+  const [modo, setModo] = useState("login");
   const [form, setForm] = useState({ nombre: "", password: "", repetir: "" });
   const [error, setError] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -29,8 +30,8 @@ export default function Formulario() {
     try {
       const url =
         modo === "login"
-          ? "http://localhost:3001/login"
-          : "http://localhost:3001/usuarios";
+          ? `${CONFIG.API_URL}/login`
+          : `${CONFIG.API_URL}/usuarios`;
 
       const res = await fetch(url, {
         method: "POST",
@@ -44,7 +45,7 @@ export default function Formulario() {
         setError(data.error);
       } else {
         if (modo === "login") {
-          navigate("/pantallajuegos"); // redirige si login exitoso
+          navigate("/pantallajuegos");
         } else {
           setMensaje(`Usuario ${data.nombre} creado`);
           setForm({ nombre: "", password: "", repetir: "" });
