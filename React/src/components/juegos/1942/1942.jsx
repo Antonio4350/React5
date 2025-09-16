@@ -3,10 +3,14 @@ import { objeto, proyectil, nave, enemigo } from "../objeto"
 import { escuadron, boss, formacion } from './escuadron';
 import { gameArea } from "../canvas";
 import { useEffect, useRef } from 'react';
+import { useState } from "react";
+import PantallaPerdiste from '../../pantallaPerdiste';
 
 function Guerra() 
 {
     const gameContainer = useRef(null);
+    const [gameOverScreen, setGameOverScreen] = useState(false);
+    const [finalScore, setFinalScore] = useState(0);
 
     let player;
     let canvas = new gameArea(300, 200);
@@ -14,7 +18,7 @@ function Guerra()
     let started = false;
 
     let proyectiles = [];
-    let disparoActual;
+    let puntuacion = 0;
     let cooldown = 15;
     let invincibilidad = 40;
     let inviciTempo = 0;
@@ -56,11 +60,10 @@ function Guerra()
             console.error("Error al reiniciar el juego:", e);
         }
 
-        player = new nave(10, 10, 145, 95, ['./space_3.png'], 5, false);
+        player = new nave(10, 10, 145, 95, ['./space_3.png'], 10, false);
         canvas = new gameArea(300, 200);
 
         proyectiles = [];
-        disparoActual = 2;
         cooldown = 15;
 
         crearEscuadrones();
@@ -73,14 +76,14 @@ function Guerra()
     function crearEscuadrones()
     {
         escuadrones = [];
-        escuadrones.push(new formacion(new escuadron(2,3,1, false), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 40, 140, 40, 60], 0, 200, false));
-        escuadrones.push(new formacion(new escuadron(2,3,1, false), [[-1,-1], [0,0], [0,-1], [0,0], [1,-1]], [40, 40, 140, 40, 60], 300, 200, false));
+        escuadrones.push(new formacion(new escuadron(2,3,1,false,30), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 40, 140, 40, 60], 0, 200, false));
+        escuadrones.push(new formacion(new escuadron(2,3,1,false,30), [[-1,-1], [0,0], [0,-1], [0,0], [1,-1]], [40, 40, 140, 40, 60], 300, 200, false));
         
-        escuadrones.push(new formacion(new escuadron(3,1,1, false), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0, false));
-        escuadrones.push(new formacion(new escuadron(3,1,1, false), [[1,1], [0,0], [1,0], [0,0], [1,-1]], [40, 10, 240, 10, 60], 0, 0, false));
+        escuadrones.push(new formacion(new escuadron(3,1,1,false,20), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0, false));
+        escuadrones.push(new formacion(new escuadron(3,1,1,false,20), [[1,1], [0,0], [1,0], [0,0], [1,-1]], [40, 10, 240, 10, 60], 0, 0, false));
 
-        escuadrones.push(new formacion(new escuadron(5,1,1, false), [[1,0]], [400], -100, 100, false));
-        escuadrones.push(new formacion(new escuadron(5,1,1, false), [[-1,0]], [400], 300, 100, false));
+        escuadrones.push(new formacion(new escuadron(5,1,1,false,20), [[1,0]], [400], -100, 100, false));
+        escuadrones.push(new formacion(new escuadron(5,1,1,false,20), [[-1,0]], [400], 300, 100, false));
         //Jefe
         escuadrones.push(new formacion(new boss(50), [[0,1], [0,0], [-1,0], [1,0], [-1,0], [0,0], [0,-1]], [100, 200, 100, 200, 100, 200, 100], 110, -80, true));
     }
@@ -112,6 +115,7 @@ function Guerra()
             player.move(x, y, canvas);
             player.update(canvas);
             inviciTempo++;
+            if(player.health <= 0) gameOver();
             if(inviciTempo < invincibilidad)
             {
                 if(colisionEnemigos(player) == true)
@@ -238,12 +242,21 @@ function Guerra()
                     {
                         if(escuadrones[i].escua.naves[j].colisiona(pro))
                         {
+                            if(escuadrones[i].escua.naves[j].destroyed) puntuacion += escuadrones[i].escua.naves[j].puntuacion;
                             return true;
                         }
                     }
                 }
             }
         }
+    }
+
+    function gameOver()
+    {
+        started = false;
+
+        setFinalScore(puntuacion);
+        setGameOverScreen(true);
     }
 
     const pressedKeys = new Set();
@@ -370,6 +383,11 @@ function Guerra()
     return (  
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center"> 
             <button onClick={startGame} id="startButton"  className="relative z-10 bg-black text-white font-bold px-6 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar</button>
+            {gameOverScreen && (<PantallaPerdiste score={finalScore}
+                onRestart={() => {
+                setGameOverScreen(false);
+                window.location.reload();
+            }}/>)}
         </div>
     );
 }

@@ -121,10 +121,11 @@ export class nave extends objeto
 
 export class enemigo extends nave
 {
-    constructor(width, height, x, y, url, health, bottom, cadencia)
+    constructor(width, height, x, y, url, health, bottom, cadencia, puntuacion)
     {
         super(width, height, x, y, url, health, bottom);
         this.bottom = bottom;
         this.cadencia = cadencia;
+        this.puntuacion = puntuacion;
     }
 }

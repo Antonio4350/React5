@@ -85,9 +85,9 @@ function Space()
         {
             for(let j=0; j<columnasEnemigos; j++)
             {
-                if(i==0) enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_2a.png', './space_2b.png', './space_2c.png'], 2, (i==filasEnemigos-1), 5));
-                else if(i==2) enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_1a.png', './space_1b.png', './space_1c.png'], 1, (i==filasEnemigos-1), 2));
-                else enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_0a.png', './space_0b.png', './space_0c.png'], 1, (i==filasEnemigos-1), 5));
+                if(i==0) enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_2a.png', './space_2b.png', './space_2c.png'], 2, (i==filasEnemigos-1), 3, 60));
+                else if(i==2) enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_1a.png', './space_1b.png', './space_1c.png'], 1, (i==filasEnemigos-1), 2, 40));
+                else enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_0a.png', './space_0b.png', './space_0c.png'], 1, (i==filasEnemigos-1), 5, 30));
                 
             }
         }
@@ -134,7 +134,7 @@ function Space()
                 {
                     if(enemigos[i].colisiona(pro))
                     {
-                        puntuacion+=30;
+                        puntuacion+=enemigos[i].puntuacion;
                         return true;
                     }
                 }
@@ -338,15 +338,11 @@ function Space()
                 <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onClick={disparoJugador}>Disparar</button>
             </div>
 
-            {gameOverScreen && (
-  <PantallaPerdiste
-    score={finalScore}
-    onRestart={() => {
-      setGameOverScreen(false);
-      window.location.reload(); // Reinicia la página/juego
-    }}
-  />
-)}
+            {gameOverScreen && (<PantallaPerdiste score={finalScore}
+                onRestart={() => {
+                setGameOverScreen(false);
+                window.location.reload();
+            }}/>)}
         </div>
     )
 }
