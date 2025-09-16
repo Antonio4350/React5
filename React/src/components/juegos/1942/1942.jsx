@@ -1,5 +1,6 @@
 import './1942.css'
 import { objeto, proyectil, nave, enemigo } from "../objeto"
+import { jugador } from './player';
 import { escuadron, boss, formacion } from './escuadron';
 import { gameArea } from "../canvas";
 import { useEffect, useRef } from 'react';
@@ -13,6 +14,8 @@ function Guerra()
     const [finalScore, setFinalScore] = useState(0);
 
     let player;
+    let player2 = null;
+    let players = 1;
     let canvas = new gameArea(300, 200);
     let interval = null;
     let started = false;
@@ -21,12 +24,6 @@ function Guerra()
     let puntuacion = 0;
     let cooldown = 15;
     let invincibilidad = 40;
-    let inviciTempo = 0;
-
-    let izquierda = false;
-    let derecha = false;
-    let arriba = false;
-    let abajo = false;
 
     let escuadrones = [];
     let dificultad = 1;
@@ -60,7 +57,15 @@ function Guerra()
             console.error("Error al reiniciar el juego:", e);
         }
 
-        player = new nave(10, 10, 145, 95, ['./space_3.png'], 10, false);
+        if(players == 1)
+        {
+            player = new jugador(10, 145, 95, './space_3.png');
+        }
+        if(players == 2)
+        {
+            player = new jugador(10, 130, 95, './space_3.png');
+            player2 = new jugador(10, 160, 95, './space_3.png');
+        }
         canvas = new gameArea(300, 200);
 
         proyectiles = [];
@@ -69,7 +74,8 @@ function Guerra()
         crearEscuadrones();
 
         canvas.start(gameContainer.current, 'warCanvas'); 
-        document.getElementById('startButton').style.display = 'none';
+        document.getElementById('startButton1').style.display = 'none';
+        document.getElementById('startButton2').style.display = 'none';
         started = true;
     }
 
@@ -95,7 +101,8 @@ function Guerra()
 
     function drawStats()
     {
-        for(let i=0; i<player.health; i++) player.drawStatic(5+(i*15), 5, canvas);
+        for(let i=0; i<player.nave.health; i++) player.nave.drawStatic(5+(i*15), 5, canvas);
+        if(player2 != null) for(let i=0; i<player2.nave.health; i++) player2.nave.drawStatic(5+(i*15), 15, canvas);
     }
 
     function updateGameArea()
@@ -104,24 +111,36 @@ function Guerra()
         {
             canvas.clear();
             drawStats();
-            let x, y;
-            if(arriba == true) y = -1;
-            else if(abajo == true) y = 1;
-            else y = 0;
-            if(izquierda == true) x = -1;
-            else if(derecha == true) x = 1;
-            else x = 0;
 
-            player.move(x, y, canvas);
-            player.update(canvas);
-            inviciTempo++;
-            if(player.health <= 0) gameOver();
-            if(inviciTempo < invincibilidad)
+            if(player.nave.health > 0) player.updatePlayer(canvas);
+            if(player2 != null) if(player2.nave.health > 0) player2.updatePlayer(canvas);
+
+            if(players == 1)
             {
-                if(colisionEnemigos(player) == true)
+                if(player.nave.health <= 0) gameOver();
+            }
+            else
+            {
+                if(player.nave.health <= 0 && player2.nave.health <= 0) gameOver();
+            }
+
+            if(player.inviciTempo < invincibilidad && player.nave.health > 0)
+            {
+                if(colisionEnemigos(player.nave) == true)
                 {
-                    player.health--;
-                    inviciTempo = 0;
+                    player.nave.health--;
+                    player.inviciTempo = 0;
+                }
+            }
+            if(player2 != null)
+            {
+                if(player2.inviciTempo < invincibilidad && player2.nave.health > 0)
+                {
+                    if(colisionEnemigos(player2.nave) == true)
+                    {
+                        player2.nave.health--;
+                        player2.inviciTempo = 0;
+                    }
                 }
             }
 
@@ -185,7 +204,6 @@ function Guerra()
             }
 
             canvas.frameNo++;
-            canvas.shot++;
 
             if(canvas.frameNo >= 50)
             {
@@ -194,14 +212,25 @@ function Guerra()
                 {
                     if(escuadrones[i].iniciado == true)
                     {
-                        escuadrones[i].escua.disparar(player.x, player.y, disparar);
+                        if(players == 1) escuadrones[i].escua.disparar(player.nave.x, player.nave.y, disparar);
+                        else
+                        {
+                            let rand = Math.floor(Math.random() * 2);
+                            if(rand == 0 && player.nave.health > 0) escuadrones[i].escua.disparar(player.nave.x, player.nave.y, disparar);
+                            else if(player2.nave.health > 0) escuadrones[i].escua.disparar(player2.nave.x, player2.nave.y, disparar);
+                            else escuadrones[i].escua.disparar(player.nave.x, player.nave.y, disparar);
+                        }
                     }
                 }
             }
 
-            if(pressedKeys.has(' ')) //Espacio
+            if(pressedKeys.has('Enter') && player.nave.health > 0)
             {
-                disparoJugador();
+                disparoJugador(1);
+            }
+            if(players == 2 && pressedKeys.has(' '))
+            {
+                if(player2.nave.health > 0) disparoJugador(2);
             }
         }
     }
@@ -210,19 +239,33 @@ function Guerra()
     {
         if(pro.isPlayer == false)
         {
-            if(player.colisiona(pro))
+            if(player.nave.colisiona(pro) && player.nave.health > 0)
             {
-                if(inviciTempo > invincibilidad)
+                if(player.inviciTempo > invincibilidad)
                 {
-                    inviciTempo = 0;
+                    player.inviciTempo = 0;
                     return true;
                 }
                 else
                 {
-                    player.health++;
+                    player.nave.health++;
                     return true;
                 }
             }
+            else if(player2 != null) if(player2.nave.colisiona(pro) && player2.nave.health > 0)
+            {
+                if(player2.inviciTempo > invincibilidad)
+                {
+                    player2.inviciTempo = 0;
+                    return true;
+                }
+                else
+                {
+                    player2.nave.health++;
+                    return true;
+                }
+            }
+            else return false;
         }
         else
         {
@@ -264,125 +307,171 @@ function Guerra()
     {
         pressedKeys.add(event.key);
         if(event.keyCode === 32) event.preventDefault();
-        
-        if(pressedKeys.has('ArrowRight') || pressedKeys.has('D'))
-        {
-            derechaTrue();
-        }
-        else
-        {
-            derechaFalse();
-        }
-        if(pressedKeys.has('ArrowLeft') || pressedKeys.has('A'))
-        {
-            izquierdaTrue();
-        }
-        else
-        {
-            izquierdaFalse();
-        }
-        if(pressedKeys.has('ArrowDown') || pressedKeys.has('S'))
-        {
-            abajoTrue();
-        }
-        else
-        {
-            abajoFalse();
-        }
-        if(pressedKeys.has('ArrowUp') || pressedKeys.has('W'))
-        {
-            arribaTrue();
-        }
-        else
-        {
-            arribaFalse();
-        }
+        teclas();
     }
 
     function teclasSoltadas(event)
     {
         pressedKeys.delete(event.key);
-        if(pressedKeys.has('ArrowRight') || pressedKeys.has('D'))
-        {
-            derechaTrue();
-        }
-        else
-        {
-            derechaFalse();
-        }
-        if(pressedKeys.has('ArrowLeft') || pressedKeys.has('A'))
-        {
-            izquierdaTrue();
-        }
-        else
-        {
-            izquierdaFalse();
-        }
-        if(pressedKeys.has('ArrowDown') || pressedKeys.has('S'))
-        {
-            abajoTrue();
-        }
-        else
-        {
-            abajoFalse();
-        }
-        if(pressedKeys.has('ArrowUp') || pressedKeys.has('W'))
-        {
-            arribaTrue();
-        }
-        else
-        {
-            arribaFalse();
-        }
+        teclas();
     }
 
-    function disparoJugador()
+    function teclas()
     {
-        if(canvas.shot >= cooldown)
+        if(started)
         {
-            canvas.shot = 0;
-            switch(dificultad)
+            if(pressedKeys.has('ArrowRight'))
             {
-                case 1:
-                    disparar([0,-1], player.x+4, player.y, true);
-                    break;
-                case 2:
-                    disparar([0,-1], player.x+1, player.y, true);
-                    disparar([0,-1], player.x+7, player.y, true);
-                    break;
-                case 3:
-                    disparar([-0.3,-1], player.x, player.y, true);
-                    disparar([0,-1], player.x+4, player.y, true);
-                    disparar([0.3,-1], player.x+8, player.y, true);
-                    break;
-                case 4:
-                    disparar([-0.3,-1], player.x, player.y, true);
-                    disparar([0,-1], player.x+1, player.y, true);
-                    disparar([0,-1], player.x+7, player.y, true);
-                    disparar([0.3,-1], player.x+8, player.y, true);
-                    break;
-                default:
-                    disparar([-0.3,-1], player.x, player.y, true);
-                    disparar([0,-1], player.x+1, player.y, true);
-                    disparar([0,-1], player.x+7, player.y, true);
-                    disparar([0.3,-1], player.x+8, player.y, true);
-                    break;
+                player.derecha = true;
+            }
+            else
+            {
+                player.derecha = false;
+            }
+            if(pressedKeys.has('ArrowLeft'))
+            {
+                player.izquierda = true;
+            }
+            else
+            {
+                player.izquierda = false;
+            }
+            if(pressedKeys.has('ArrowDown'))
+            {
+                player.abajo = true;
+            }
+            else
+            {
+                player.abajo = false;
+            }
+            if(pressedKeys.has('ArrowUp'))
+            {
+                player.arriba = true;
+            }
+            else
+            {
+                player.arriba = false;
+            }
+
+            if(players == 2)
+            {
+                if(pressedKeys.has('d') || pressedKeys.has('D'))
+                {
+                    player2.derecha = true;
+                }
+                else
+                {
+                    player2.derecha = false;
+                }
+                if(pressedKeys.has('a') || pressedKeys.has('A'))
+                {
+                    player2.izquierda = true;
+                }
+                else
+                {
+                    player2.izquierda = false;
+                }
+                if(pressedKeys.has('s') || pressedKeys.has('S'))
+                {
+                    player2.abajo = true;
+                }
+                else
+                {
+                    player2.abajo = false;
+                }
+                if(pressedKeys.has('w') || pressedKeys.has('W'))
+                {
+                    player2.arriba = true;
+                }
+                else
+                {
+                    player2.arriba = false;
+                }
             }
         }
     }
 
-    function derechaTrue(){derecha = true;}
-    function derechaFalse(){derecha = false;}
-    function izquierdaTrue(){izquierda = true;}
-    function izquierdaFalse(){izquierda = false;}
-    function arribaTrue(){arriba = true;}
-    function arribaFalse(){arriba = false;}
-    function abajoTrue(){abajo = true;}
-    function abajoFalse(){abajo = false;}
+    function disparoJugador(p)
+    {
+        if(p == 1)
+        {
+            if(player.shootTime >= cooldown)
+            {
+                player.shootTime = 0;
+                switch(dificultad)
+                {
+                    case 1:
+                        disparar([0,-1], player.nave.x+4, player.nave.y, true);
+                        break;
+                    case 2:
+                        disparar([0,-1], player.nave.x+1, player.nave.y, true);
+                        disparar([0,-1], player.nave.x+7, player.nave.y, true);
+                        break;
+                    case 3:
+                        disparar([-0.3,-1], player.nave.x, player.nave.y, true);
+                        disparar([0,-1], player.nave.x+4, player.nave.y, true);
+                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true);
+                        break;
+                    case 4:
+                        disparar([-0.3,-1], player.nave.x, player.nave.y, true);
+                        disparar([0,-1], player.nave.x+1, player.nave.y, true);
+                        disparar([0,-1], player.nave.x+7, player.nave.y, true);
+                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true);
+                        break;
+                    default:
+                        disparar([-0.3,-1], player.nave.x, player.nave.y, true);
+                        disparar([0,-1], player.nave.x+1, player.nave.y, true);
+                        disparar([0,-1], player.nave.x+7, player.nave.y, true);
+                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true);
+                        break;
+                }
+            }
+        }
+        else if(p == 2)
+        {
+            if(player2.shootTime >= cooldown)
+            {
+                player2.shootTime = 0;
+                switch(dificultad)
+                {
+                    case 1:
+                        disparar([0,-1], player2.nave.x+4, player2.nave.y, true);
+                        break;
+                    case 2:
+                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true);
+                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true);
+                        break;
+                    case 3:
+                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true);
+                        disparar([0,-1], player2.nave.x+4, player2.nave.y, true);
+                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true);
+                        break;
+                    case 4:
+                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true);
+                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true);
+                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true);
+                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true);
+                        break;
+                    default:
+                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true);
+                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true);
+                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true);
+                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true);
+                        break;
+                }
+            }
+        }
+    }
+
+    function setPlayer(n)
+    {
+        players = n;
+    }
 
     return (  
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center"> 
-            <button onClick={startGame} id="startButton"  className="relative z-10 bg-black text-white font-bold px-6 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar</button>
+            <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="relative z-10 bg-black text-white font-bold px-6 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
+            <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2"  className="relative z-10 bg-black text-white font-bold px-6 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>
             {gameOverScreen && (<PantallaPerdiste score={finalScore}
                 onRestart={() => {
                 setGameOverScreen(false);
