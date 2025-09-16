@@ -1,4 +1,16 @@
-#warCanvas
-{
-    background-color: red;
+#warCanvas {
+    background-image: url('./integrales4.png');
+    background-repeat: repeat-y;
+    background-size: 100% 90%;
+    
+    animation: slideBackground 5s linear infinite;
+}
+
+@keyframes slideBackground {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: 900%;
+  }
 }
