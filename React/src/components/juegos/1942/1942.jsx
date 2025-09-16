@@ -1,6 +1,6 @@
 import './1942.css'
 import { objeto, proyectil, nave, enemigo } from "../objeto"
-import { escuadron, formacion } from './escuadron';
+import { escuadron, boss, formacion } from './escuadron';
 import { gameArea } from "../canvas";
 import { useEffect, useRef } from 'react';
 
@@ -16,6 +16,8 @@ function Guerra()
     let proyectiles = [];
     let disparoActual;
     let cooldown = 15;
+    let invincibilidad = 40;
+    let inviciTempo = 0;
 
     let izquierda = false;
     let derecha = false;
@@ -23,6 +25,9 @@ function Guerra()
     let abajo = false;
 
     let escuadrones = [];
+    let dificultad = 1;
+    let rondasJefe = 8;
+    let rondas = 0;
 
     useEffect(() => {
         document.addEventListener('keydown', teclasApretadas);
@@ -55,7 +60,7 @@ function Guerra()
         canvas = new gameArea(300, 200);
 
         proyectiles = [];
-        disparoActual = 1;
+        disparoActual = 2;
         cooldown = 15;
 
         crearEscuadrones();
@@ -68,8 +73,16 @@ function Guerra()
     function crearEscuadrones()
     {
         escuadrones = [];
-        escuadrones.push(new formacion(new escuadron(2,3,1), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 10, 140, 10, 60], 0, 200, true));
-        escuadrones.push(new formacion(new escuadron(3,1,1), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0, false));
+        escuadrones.push(new formacion(new escuadron(2,3,1, false), [[1,-1], [0,0], [0,-1], [0,0], [-1,-1]], [40, 40, 140, 40, 60], 0, 200, false));
+        escuadrones.push(new formacion(new escuadron(2,3,1, false), [[-1,-1], [0,0], [0,-1], [0,0], [1,-1]], [40, 40, 140, 40, 60], 300, 200, false));
+        
+        escuadrones.push(new formacion(new escuadron(3,1,1, false), [[-1,1], [0,0], [-1,0], [0,0], [-1,-1]], [40, 10, 240, 10, 60], 300, 0, false));
+        escuadrones.push(new formacion(new escuadron(3,1,1, false), [[1,1], [0,0], [1,0], [0,0], [1,-1]], [40, 10, 240, 10, 60], 0, 0, false));
+
+        escuadrones.push(new formacion(new escuadron(5,1,1, false), [[1,0]], [400], -100, 100, false));
+        escuadrones.push(new formacion(new escuadron(5,1,1, false), [[-1,0]], [400], 300, 100, false));
+        //Jefe
+        escuadrones.push(new formacion(new boss(50), [[0,1], [0,0], [-1,0], [1,0], [-1,0], [0,0], [0,-1]], [100, 200, 100, 200, 100, 200, 100], 110, -80, true));
     }
 
     function disparar(direction, x, y, isplayer)
@@ -77,11 +90,17 @@ function Guerra()
         proyectiles.push(new proyectil(2, 2, x, y, "white", direction, isplayer));
     }
 
+    function drawStats()
+    {
+        for(let i=0; i<player.health; i++) player.drawStatic(5+(i*15), 5, canvas);
+    }
+
     function updateGameArea()
     {
         if(started)
         {
             canvas.clear();
+            drawStats();
             let x, y;
             if(arriba == true) y = -1;
             else if(abajo == true) y = 1;
@@ -92,6 +111,15 @@ function Guerra()
 
             player.move(x, y, canvas);
             player.update(canvas);
+            inviciTempo++;
+            if(inviciTempo < invincibilidad)
+            {
+                if(colisionEnemigos(player) == true)
+                {
+                    player.health--;
+                    inviciTempo = 0;
+                }
+            }
 
             let escuadronesActivos = 0;
             for(let i=0; i<escuadrones.length; i++)
@@ -103,11 +131,41 @@ function Guerra()
                 }
             }
             
-            if(escuadronesActivos == 0)
+            if(rondas%rondasJefe == 0 && rondas != 0)
             {
-                let rand = Math.floor(Math.random() * escuadrones.length);
-                escuadrones[rand].iniciarAtaque();
-            } 
+                if(escuadrones[escuadrones.length-1].iniciado == false)
+                {
+                    escuadrones[escuadrones.length-1].iniciarAtaque();
+                    rondasJefe = parseInt(rondasJefe*2);
+                }
+            }
+            else
+            {
+                if(escuadronesActivos < dificultad && dificultad < escuadrones.length-1)
+                {
+                    let rand = Math.floor(Math.random() * (escuadrones.length-1));
+                    let i=0;
+                    let e=0;
+                    rondas++;
+                    while(i < dificultad && e < escuadrones.length-1)
+                    {
+                        if(escuadrones[rand].iniciado == false)
+                        {
+                            escuadrones[rand].iniciarAtaque();
+                            i++;
+                        }
+                        else
+                        {
+                            rand = Math.floor(Math.random() * (escuadrones.length-1));
+                            e++;
+                        }
+
+                        if(rondas%rondasJefe == 0) break;
+                    }
+                } 
+            }
+
+            if(rondas > dificultad*dificultad*dificultad && rondas >= 4) dificultad++;
 
             for(let i=0; i<proyectiles.length; i++)
             {
@@ -148,22 +206,39 @@ function Guerra()
     {
         if(pro.isPlayer == false)
         {
-            if(player.colisiona(pro)) return true;
+            if(player.colisiona(pro))
+            {
+                if(inviciTempo > invincibilidad)
+                {
+                    inviciTempo = 0;
+                    return true;
+                }
+                else
+                {
+                    player.health++;
+                    return true;
+                }
+            }
         }
         else
         {
-            for(let i=0; i<escuadrones.length; i++)
+            return colisionEnemigos(pro);
+        }
+    }
+
+    function colisionEnemigos(pro)
+    {
+        for(let i=0; i<escuadrones.length; i++)
+        {
+            if(escuadrones[i].iniciado == true)
             {
-                if(escuadrones[i].iniciado == true)
+                for(let j=0; j<escuadrones[i].escua.naves.length; j++)
                 {
-                    for(let j=0; j<escuadrones[i].escua.naves.length; j++)
+                    if(escuadrones[i].escua.naves[j].destroyed == false)
                     {
-                        if(escuadrones[i].escua.naves[j].destroyed == false)
+                        if(escuadrones[i].escua.naves[j].colisiona(pro))
                         {
-                            if(escuadrones[i].escua.naves[j].colisiona(pro))
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
                 }
@@ -253,7 +328,7 @@ function Guerra()
         if(canvas.shot >= cooldown)
         {
             canvas.shot = 0;
-            switch(disparoActual)
+            switch(dificultad)
             {
                 case 1:
                     disparar([0,-1], player.x+4, player.y, true);
@@ -268,6 +343,12 @@ function Guerra()
                     disparar([0.3,-1], player.x+8, player.y, true);
                     break;
                 case 4:
+                    disparar([-0.3,-1], player.x, player.y, true);
+                    disparar([0,-1], player.x+1, player.y, true);
+                    disparar([0,-1], player.x+7, player.y, true);
+                    disparar([0.3,-1], player.x+8, player.y, true);
+                    break;
+                default:
                     disparar([-0.3,-1], player.x, player.y, true);
                     disparar([0,-1], player.x+1, player.y, true);
                     disparar([0,-1], player.x+7, player.y, true);

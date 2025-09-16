@@ -2,18 +2,21 @@ import { objeto, proyectil, nave, enemigo } from "../objeto"
 
 export class escuadron
 {
-    constructor(filas, columnas, health)
+    constructor(filas, columnas, health, especial)
     {
-        this.naves = [];
-        this.filas = filas;
-        this.columnas = columnas;
-        this.health = health;
-
-        for(let i=0; i<filas; i++)
+        if(especial == false)
         {
-            for(let j=0; j<columnas; j++)
+            this.naves = [];
+            this.filas = filas;
+            this.columnas = columnas;
+            this.health = health;
+
+            for(let i=0; i<filas; i++)
             {
-                this.naves.push(new enemigo(10, 10, (20*j), (15*i), ['./space_0a.png', './space_0b.png', './space_0c.png'], health, false, 5));
+                for(let j=0; j<columnas; j++)
+                {
+                    this.naves.push(new enemigo(10, 10, (20*j), (15*i), ['./space_0a.png', './space_0b.png', './space_0c.png'], health, false, 5));
+                }
             }
         }
     }
@@ -59,7 +62,6 @@ export class escuadron
                 let dir = [this.naves[i].x - obX, this.naves[i].y - obY];
                 let magnitude = -Math.sqrt(dir[0]*dir[0] + dir[1]*dir[1]);
                 let normaliced = [dir[0]/magnitude, dir[1]/magnitude];
-                console.log(normaliced);
                 disparar(normaliced, this.naves[i].x, this.naves[i].y, false);
             }
         }
@@ -72,6 +74,40 @@ export class escuadron
             if(this.naves[i].destroyed == false) return false;
         }
         return true;
+    }
+}
+
+export class boss extends escuadron
+{
+    constructor(health)
+    {
+        super(0,0, health, true);
+        this.health = health;
+        this.naves = [];
+        this.width = 80;
+        this.height = 80;
+
+        this.naves.push(new enemigo(this.width, this.height, 0, 0, ['./space_0a.png', './space_0b.png', './space_0c.png'], health, false, 5));
+    }
+
+    disparar(obX, obY, disparar)
+    {
+        let n=20;
+        let speed=0.5;
+        let aumentar = true;
+        for(let i=0; i<n; i++)
+        {
+            let angle = (i / n) * (2 * Math.PI);
+            let dx = Math.cos(angle) * speed;
+            let dy = Math.sin(angle) * speed;
+            disparar([dx, dy], this.naves[0].x + (this.width/2), this.naves[0].y + (this.height/2), false);
+        }
+    }
+
+    setPosition(x,y)
+    {
+        this.naves[0].x = x;
+        this.naves[0].y = y;
     }
 }
 
