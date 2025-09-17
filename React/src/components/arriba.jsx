@@ -16,16 +16,16 @@ const Arriba = () => {
       fetch(`${CONFIG.API_URL}/usuarios/${id1}`)
         .then((res) => res.json())
         .then((data) => setJugador1(data.nombre))
-        .catch(() => setJugador1("Desconocido"));
+        .catch(() => setJugador1("Desconectado"));
     } else {
-      setJugador1("Desconocido");
+      setJugador1("Desconectado");
     }
 
     if (id2) {
       fetch(`${CONFIG.API_URL}/usuarios/${id2}`)
         .then((res) => res.json())
         .then((data) => setJugador2(data.nombre))
-        .catch(() => setJugador2("Desconocido"));
+        .catch(() => setJugador2("Desconectado"));
     } else {
       setJugador2("Desconectado");
     }
