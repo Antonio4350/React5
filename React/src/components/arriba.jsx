@@ -51,8 +51,6 @@ const Arriba = () => {
         <span className="text-green-400 px-6 py-3  font-bold rounded border-2  select-none">Jugador 1:  <span>{jugador1 || "Desconectado"}</span></span>
   
       </div>
-
-      {/* Conditionally render the navigation links */}
       {!isFormPage && (
         <div className="flex items-center gap-4">
           <a href="/pantallajuegos" className="hover:text-gray-500 transition px-6 py-3  font-bold rounded border-2  select-none">Juegos</a>

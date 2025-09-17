@@ -35,6 +35,9 @@ function Guerra()
     let rondasJefe = 8;
     let rondas = 0;
 
+    const disparo = new Audio('./audios/laser.mp3');
+    const explosion = new Audio('./audios/explosion.mp3');
+
     useEffect(() => {
         document.addEventListener('keydown', teclasApretadas);
         document.addEventListener('keyup', teclasSoltadas);
@@ -42,6 +45,8 @@ function Guerra()
         if (audioRef.current) {
             audioRef.current.volume = 0.5;
         }
+        disparo.volume = 0.1;
+        explosion.volume = 0.1;
             
         // Limpia el intervalo y los listeners cuando el componente se desmonte
         return () => {
@@ -326,7 +331,13 @@ function Guerra()
                     {
                         if(escuadrones[i].escua.naves[j].colisiona(pro))
                         {
-                            if(escuadrones[i].escua.naves[j].destroyed) puntuacion += escuadrones[i].escua.naves[j].puntuacion;
+                            if(escuadrones[i].escua.naves[j].destroyed)
+                            {
+                                explosion.pause();
+                                explosion.currentTime = 0;
+                                explosion.play();
+                                puntuacion += escuadrones[i].escua.naves[j].puntuacion;
+                            } 
                             return true;
                         }
                     }
@@ -467,6 +478,9 @@ function Guerra()
         {
             if(player.shootTime >= cooldown)
             {
+                disparo.pause();
+                disparo.currentTime = 0;
+                disparo.play();
                 player.shootTime = 0;
                 switch(dificultad)
                 {
@@ -501,6 +515,9 @@ function Guerra()
         {
             if(player2.shootTime >= cooldown)
             {
+                disparo.pause();
+                disparo.currentTime = 0;
+                disparo.play();
                 player2.shootTime = 0;
                 switch(dificultad)
                 {

@@ -37,6 +37,8 @@ function Space()
 
     const [gameOverScreen, setGameOverScreen] = useState(false);
     const [finalScore, setFinalScore] = useState(0);
+    const disparo = new Audio('./audios/laser.mp3');
+    const explosion = new Audio('./audios/explosion.mp3');
 
     // Usa useEffect para manejar la lógica del juego
     useEffect(() => {
@@ -46,6 +48,8 @@ function Space()
         if (audioRef.current) {
             audioRef.current.volume = 0.5;
         }
+        disparo.volume = 0.1;
+        explosion.volume = 0.1;
         
         // Limpia el intervalo y los listeners cuando el componente se desmonte
         return () => {
@@ -160,7 +164,13 @@ function Space()
                 {
                     if(enemigos[i].colisiona(pro))
                     {
-                        puntuacion+=enemigos[i].puntuacion;
+                        if(enemigos[i].destroyed == true)
+                        {
+                            puntuacion+=enemigos[i].puntuacion;
+                            explosion.pause();
+                            explosion.currentTime = 0;
+                            explosion.play();
+                        }
                         return true;
                     }
                 }
@@ -354,6 +364,9 @@ function Space()
     {
         if(canvas.shot >= 20)
         {
+            disparo.pause();
+            disparo.currentTime = 0;
+            disparo.play();
             canvas.shot = 0;
             disparar(-1, player.x+4, player.y+2);
         }

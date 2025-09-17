@@ -1,11 +1,13 @@
 canvas {
     border:1px solid #000000;
     background-image: url('./background_0.png');
-    width: 60vw;
+    padding-top: 78px;
+    width: 58vw;
     image-rendering: pixelated;
 }
 .fondo{
     filter: blur(2px);
+    padding-top: 75px;
     -webkit-user-drag: none;
     user-select: none;
     -moz-user-select: none;
