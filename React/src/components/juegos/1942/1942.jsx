@@ -1,5 +1,6 @@
 import './1942.css'
 import { objeto, proyectil, nave, enemigo } from "../objeto"
+import { Link } from 'react-router-dom';
 import { jugador } from './player';
 import { escuadron, boss, formacion } from './escuadron';
 import { gameArea } from "../canvas";
@@ -504,17 +505,35 @@ function Guerra()
         players = n;
     }
 
-    return (  
-        <div ref={gameContainer} className="relative w-full h-full flex flex-row items-center gap-10"> 
-            <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="relative z-10 bg-black text-white font-bold px-12 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
-            <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2"  className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>
-            {gameOverScreen && (<PantallaPerdiste score={finalScore}
-                onRestart={() => {
-                setGameOverScreen(false);
-                window.location.reload();
-            }}/>)}
-        </div>
-    );
+    if(localStorage.getItem('jugador1_id') != null)
+    {
+        return (  
+            <div ref={gameContainer} className="relative w-full h-full flex flex-row items-center gap-10"> 
+                <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="relative z-10 bg-black text-white font-bold px-12 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
+                {
+                    localStorage.getItem('jugador2_id') != null ? (<button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>)
+                    : (
+                    <button onClick={() => { window.location.href = "/"; }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">Agregar Jugador</button>)
+                }
+                {gameOverScreen && (<PantallaPerdiste score={finalScore}
+                    onRestart={() => {
+                    setGameOverScreen(false);
+                    window.location.reload();
+                }}/>)}
+            </div>
+        );
+    }
+    else
+    {
+        return (
+            <div className="absolute inset-0 flex items-center justify-center z-20">
+                <div className="bg-black/80 border-4 border-white p-8  text-center shadow-lg animate-scaleIn">
+                    <h3 className="text-2xl font-bold text-white mb-6 tracking-widest retro-text">No es posible jugar sin iniciar sesion</h3>
+                    <h3 className="text-xl text-white mb-2"><Link to="/">Iniciar Sesión Aqui</Link></h3>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default Guerra;

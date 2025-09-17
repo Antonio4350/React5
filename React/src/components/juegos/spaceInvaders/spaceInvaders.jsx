@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'; // Importa los hooks necesarios
+import { Link } from 'react-router-dom';
 import { objeto, proyectil, nave, enemigo } from "../objeto"
 import { gameArea } from "../canvas";
 import './spaceInvaders.css'
@@ -340,12 +341,14 @@ function Space()
     function izquierdaTrue(){izquierda = true;}
     function izquierdaFalse(){izquierda = false;}
 
-    return (
+    if(localStorage.getItem('jugador1_id') != null)
+    {
+        return (
         // Asigna la referencia `gameContainer` al div que contendrá el canvas
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center"> 
-   <div className="relative w-full h-full flex items-center justify-center"><img className="fondo w-full h-full object-cover" id="imagenfondo" src="fondoSpace.png" alt="fondo"/> 
-  <button onClick={startGame} id="startButton" className="absolute px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar </button>
-</div>
+            <div className="relative w-full h-full flex items-center justify-center"><img className="fondo w-full h-full object-cover" id="imagenfondo" src="fondoSpace.png" alt="fondo"/> 
+                <button onClick={startGame} id="startButton" className="absolute px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar </button>
+            </div>
             <div className="flex gap-4 sm:hidden mb-4 ">
                 <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={izquierdaTrue} onTouchEnd={izquierdaFalse}>Izquierda</button>
                 <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={derechaTrue} onTouchEnd={derechaFalse}>Derecha</button>
@@ -358,7 +361,19 @@ function Space()
                 window.location.reload();
             }}/>)}
         </div>
-    )
+        )
+    }
+    else
+    {
+        return (
+            <div className="absolute inset-0 flex items-center justify-center z-20">
+                <div className="bg-black/80 border-4 border-white p-8  text-center shadow-lg animate-scaleIn">
+                    <h3 className="text-2xl font-bold text-white mb-6 tracking-widest retro-text">No es posible jugar sin iniciar sesion</h3>
+                    <h3 className="text-xl text-white mb-2"><Link to="/">Iniciar Sesión Aqui</Link></h3>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default Space
