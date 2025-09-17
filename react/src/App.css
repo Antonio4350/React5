@@ -73,3 +73,149 @@
   display: none;
 }
 
+
+  .neon-text {
+    color: #fff;
+    text-shadow: 0 0 11px rgb(30, 255, 0), 0 0 10px rgb(187, 6, 6), 0 0 20px rgb(0, 38, 255), 0 0 40px rgb(174, 0, 255);
+    position: relative;
+  }
+  .neon-text::before {
+    content: "SELECCIONA UN JUEGO";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: rgb(0, 0, 0);
+    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+    clip-path: inset(0 100% 0 0);
+    animation: neon-scan 3s linear infinite;
+  }
+  @keyframes neon-scan {
+    10% {
+      clip-path: inset(0 100% 0 0);
+    }
+    75% {
+      clip-path: inset(0 0 0 0);
+    }
+    100% {
+      clip-path: inset(0 0 0 100%);
+    }
+  }
+
+
+.neon-text-for {
+    color: #fff;
+    text-shadow: 0 0 11px rgb(30, 255, 0), 0 0 10px rgb(187, 6, 6), 0 0 20px rgb(0, 38, 255), 0 0 40px rgb(174, 0, 255);
+    position: relative;
+  }
+  .neon-text-for::before {
+    content: "LOGIN JUGADOR 1";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: rgb(0, 0, 0);
+    text-shadow: 0 0 10px rgb(119, 0, 255), 0 0 20px rgb(89, 0, 255), 0 0 40px rgb(68, 0, 255);
+    clip-path: inset(0 100% 0 0);
+    animation: neon-scan 3s linear infinite;
+  }
+  @keyframes neon-scan {
+    1% {
+      clip-path: inset(0 100% 0 0);
+    }
+    45% {
+      clip-path: inset(0 0 0 0);
+    }
+    90% {
+      clip-path: inset(0 0 0 100%);
+    }
+  }
+
+  .neon-space {
+    color: #fff;
+    text-shadow: 0 0 11px rgb(30, 255, 0), 0 0 10px rgb(187, 6, 6), 0 0 20px rgb(0, 38, 255), 0 0 40px rgb(174, 0, 255);
+    position: relative;
+  }
+  .neon-space::before {
+    content: "Top 10 Space";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: rgb(0, 0, 0);
+    text-shadow: 0 0 10px rgb(229, 255, 0), 0 0 20px rgb(200, 255, 0), 0 0 40px rgb(187, 255, 0);
+    clip-path: inset(0 100% 0 0);
+    animation: neon-scan 3s linear infinite;
+  }
+  @keyframes neon-scan {
+    1% {
+      clip-path: inset(0 100% 0 0);
+    }
+    45% {
+      clip-path: inset(0 0 0 0);
+    }
+    90% {
+      clip-path: inset(0 0 0 100%);
+    }
+  }
+
+ .neon-1942 {
+    color: #fff;
+    text-shadow: 0 0 11px rgb(30, 255, 0), 0 0 10px rgb(187, 6, 6), 0 0 20px rgb(0, 38, 255), 0 0 40px rgb(174, 0, 255);
+    position: relative;
+  }
+  .neon-1942::before {
+    content: "Top 10 Guerra (1942)";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: rgb(0, 0, 0);
+    text-shadow: 0 0 10px rgb(0, 255, 34), 0 0 20px rgb(0, 255, 64), 0 0 40px rgb(0, 255, 0);
+    clip-path: inset(0 100% 0 0);
+    animation: neon-scan 3s linear infinite;
+  }
+  @keyframes neon-scan {
+    1% {
+      clip-path: inset(0 100% 0 0);
+    }
+    45% {
+      clip-path: inset(0 0 0 0);
+    }
+    90% {
+      clip-path: inset(0 0 0 100%);
+    }
+  }
+
+  .neon-mul {
+    color: #fff;
+    text-shadow: 0 0 11px rgb(30, 255, 0), 0 0 10px rgb(187, 6, 6), 0 0 20px rgb(0, 38, 255), 0 0 40px rgb(174, 0, 255);
+    position: relative;
+  }
+  .neon-mul::before {
+    content: "Top 10 Multijugador";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: rgb(0, 0, 0);
+    text-shadow: 0 0 10px rgb(255, 0, 0), 0 0 20px rgb(255, 0, 0), 0 0 40px rgb(255, 0, 0);
+    clip-path: inset(0 100% 0 0);
+    animation: neon-scan 3s linear infinite;
+  }
+  @keyframes neon-scan {
+    1% {
+      clip-path: inset(0 100% 0 0);
+    }
+    45% {
+      clip-path: inset(0 0 0 0);
+    }
+    90% {
+      clip-path: inset(0 0 0 100%);
+    }
+  }

@@ -151,7 +151,7 @@ export default function Formulario() {
             key={i}
             className="bg-black/90 border-4 border-white p-6 text-center shadow-lg animate-scaleIn max-w-md w-full rounded-xl"
           >
-            <h2 className="text-3xl font-bold text-white mb-4 tracking-widest retro-text">
+            <h2 className="text-3xl font-bold text-white mb-4 tracking-widest neon-text-for">
               {modo[i] === "login"
                 ? `LOGIN JUGADOR ${i + 1}`
                 : `CREAR JUGADOR ${i + 1}`}
