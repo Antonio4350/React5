@@ -15,6 +15,9 @@ function Guerra()
     const [gameOverScreen, setGameOverScreen] = useState(false);
     const [finalScore, setFinalScore] = useState(0);
 
+    const audioRef = useRef(null);
+    const [isMuted, setIsMuted] = useState(false);
+
     let player;
     let player2 = null;
     let players = 1;
@@ -35,17 +38,35 @@ function Guerra()
     useEffect(() => {
         document.addEventListener('keydown', teclasApretadas);
         document.addEventListener('keyup', teclasSoltadas);
+
+        if (audioRef.current) {
+            audioRef.current.volume = 0.5;
+        }
             
         // Limpia el intervalo y los listeners cuando el componente se desmonte
         return () => {
             clearInterval(interval);
             document.removeEventListener('keydown', teclasApretadas);
             document.removeEventListener('keyup', teclasSoltadas);
+
+            if (audioRef.current) {
+                audioRef.current.pause();
+            }
         };
     }, []);
 
+    function toggleMute() 
+    {
+        if (audioRef.current) 
+        {
+            audioRef.current.muted = !isMuted;
+            setIsMuted(!isMuted);
+        }
+    }
+
     function startGame()
     {
+        audioRef.current.play();
         try
         {
             //Se asegura de que el canvas exista antes de intentar removerlo
@@ -506,10 +527,16 @@ function Guerra()
         players = n;
     }
 
-    if(localStorage.getItem('jugador1_id') != null)
+//    if(localStorage.getItem('jugador1_id') != null)
     {
         return (  
             <div ref={gameContainer} className="relative w-full h-full flex flex-row items-center gap-10"> 
+                <audio ref={audioRef} loop><source src="./audios/space.wav" type="audio/mpeg" />Tu navegador no soporta audio en HTML5</audio>
+                <button 
+                    onClick={toggleMute} 
+                    className="z-20 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition">
+                    {isMuted ? "🔈" : "🔊"}
+                </button>
                 <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="relative z-10 bg-black text-white font-bold px-12 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
                 {
                     localStorage.getItem('jugador2_id') != null ? (<button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>)
@@ -524,7 +551,7 @@ function Guerra()
             </div>
         );
     }
-    else
+/*    else
     {
         return (
             <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -534,7 +561,7 @@ function Guerra()
                 </div>
             </div>
         );
-    }
+    }*/
 }
 
 export default Guerra;
