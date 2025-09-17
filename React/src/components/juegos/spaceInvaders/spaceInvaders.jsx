@@ -301,7 +301,7 @@ function Space()
     {
         if(event.keyCode === 32) event.preventDefault();
         
-        if(event.keyCode === 32) //Espacio
+        if(event.keyCode === 13) //Enter
         {
             disparoJugador();
         }
