@@ -23,6 +23,7 @@ function App() {
           <Route path="/pantallajuegos" element={<PantallaJuegos />} />
           <Route path="/ranking" element={<Ranking idUsuario={idUsuario} />} />
           
+          
         </Routes>
       </div>
     </div>

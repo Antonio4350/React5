@@ -32,7 +32,7 @@ export default function PantallaJuegos() {
             className="group flex flex-col items-center border-2 border-white p-4 rounded-lg bg-black hover:bg-white transition"
           >
             <img
-              src="./integrales4.png"
+              src="./1942fondo.png"
               alt="Guerra Game"
               className="w-90 h-90 object-contain mb-2 group-hover:scale-110 transition"
             />
