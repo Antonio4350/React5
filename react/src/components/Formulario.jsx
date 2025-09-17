@@ -78,6 +78,10 @@ export default function Formulario() {
             )
           );
 
+          // Guardar id y nombre en localStorage según jugador
+          localStorage.setItem(`jugador${i + 1}_id`, data.id);
+          localStorage.setItem(`jugador${i + 1}_nombre`, data.nombre);
+
           // si hay un jugador, pasa directo
           if (jugadores === 1) {
             navigate("/pantallajuegos");
@@ -140,9 +144,7 @@ export default function Formulario() {
 
       {/* Formularios */}
       <div
-        className={`flex ${
-          jugadores === 2 ? "flex-row gap-10" : "flex-col"
-        } items-center justify-center`}
+        className={`flex ${jugadores === 2 ? "flex-row gap-10" : "flex-col"} items-center justify-center`}
       >
         {[...Array(jugadores)].map((_, i) => (
           <div

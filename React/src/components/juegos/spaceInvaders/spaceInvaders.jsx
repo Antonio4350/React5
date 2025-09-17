@@ -4,6 +4,7 @@ import { gameArea } from "../canvas";
 import './spaceInvaders.css'
 import { useState } from "react";
 import PantallaPerdiste from '../../pantallaPerdiste';
+import CONFIG from '../../../config';
 
 function Space() 
 {
@@ -188,6 +189,18 @@ function Space()
 
         setFinalScore(puntuacion);
         setGameOverScreen(true);
+
+        const idUsuario = localStorage.getItem("jugador1_id");
+        // Envía el score al backend
+    fetch(`${CONFIG.API_URL}/space`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idusuario: idUsuario, puntuacion: puntuacion })
+    })
+    .then(res => res.json())
+    .then(data => console.log("Score guardado:", data))
+    .catch(err => console.error(err));
+
     }
 
     function updateGameArea()

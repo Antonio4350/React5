@@ -7,23 +7,23 @@ export default function Ranking({ idUsuario }) {
   const [usuarioGuerra, setUsuarioGuerra] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/space/top")
+    fetch(`${CONFIG.API_URL}/space/top`)
       .then((res) => res.json())
       .then(setMejoresSpace)
       .catch(() => setMejoresSpace([]));
 
-    fetch("http://localhost:3001/guerra/top")
+    fetch(`${CONFIG.API_URL}/guerra/top`)
       .then((res) => res.json())
       .then(setMejoresGuerra)
       .catch(() => setMejoresGuerra([]));
 
     if (idUsuario) {
-      fetch(`http://localhost:3001/space/user/${idUsuario}`)
+      fetch(`${CONFIG.API_URL}/space/user/${idUsuario}`)
         .then((res) => res.json())
         .then(setUsuarioSpace)
         .catch(() => setUsuarioSpace(null));
 
-      fetch(`http://localhost:3001/guerra/user/${idUsuario}`)
+      fetch(`${CONFIG.API_URL}/guerra/user/${idUsuario}`)
         .then((res) => res.json())
         .then(setUsuarioGuerra)
         .catch(() => setUsuarioGuerra(null));

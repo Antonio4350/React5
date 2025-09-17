@@ -5,7 +5,6 @@ import Fondo from "./components/Fondo.jsx";
 import Header from "./components/arriba.jsx";
 import PantallaJuegos from "./components/PantallaJuegos.jsx";
 import Ranking from "./components/ranking.jsx";
-import GuardarPuntuacion from "./components/GuardarPuntuacion.jsx";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -23,10 +22,7 @@ function App() {
           <Route path="/guerra" element={<Guerra />} />
           <Route path="/pantallajuegos" element={<PantallaJuegos />} />
           <Route path="/ranking" element={<Ranking idUsuario={idUsuario} />} />
-          <Route
-            path="/guardar"
-            element={<GuardarPuntuacion idUsuario={idUsuario} juego="space" />}
-          />
+          
         </Routes>
       </div>
     </div>
