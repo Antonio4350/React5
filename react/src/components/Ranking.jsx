@@ -73,11 +73,6 @@ export default function Ranking({ idUsuario }) {
               </li>
             ))}
           </ul>
-          {idUsuario && (
-            <div className="mt-4 text-center text-sm text-yellow-400">
-              {usuarioSpace ? `Tu última puntuación: ${usuarioSpace.puntuacion}` : "No jugaste aún"}
-            </div>
-          )}
         </div>
 
         {/* Top Guerra 1942 */}
@@ -91,11 +86,6 @@ export default function Ranking({ idUsuario }) {
               </li>
             ))}
           </ul>
-          {idUsuario && (
-            <div className="mt-4 text-center text-sm text-yellow-400">
-              {usuarioGuerra ? `Tu última puntuación: ${usuarioGuerra.puntuacion}` : "No jugaste aún"}
-            </div>
-          )}
         </div>
 
         {/* Top Multijugador */}
@@ -109,11 +99,6 @@ export default function Ranking({ idUsuario }) {
               </li>
             ))}
           </ul>
-          {idUsuario && (
-            <div className="mt-4 text-center text-sm text-yellow-400">
-              {usuarioMulti ? `Tu última puntuación: ${usuarioMulti.puntuacion}` : "No jugaste aún"}
-            </div>
-          )}
         </div>
 
       </div>
