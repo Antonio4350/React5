@@ -32,7 +32,6 @@ const Arriba = () => {
     // Ejecutar inmediatamente al montar
     fetchJugadores();
 
-    // Configurar intervalo cada 5 segundos (5000 ms)
     const interval = setInterval(fetchJugadores, 1000);
 
     // Limpiar el intervalo al desmontar
