@@ -48,7 +48,7 @@ const Arriba = () => {
   }
 
   return (
-    <header className="flex justify-between items-center fixed top-0 left-0 w-full bg-black text-white p-4 shadow-md z-50">
+    <header className="flex justify-between items-center fixed top-0 left-0 w-full bg-black text-white p-4 shadow-md z-25">
       <div className="flex items-center gap-2">
         <span className="text-green-400">Jugador 1:</span>
         <span>{jugador1 || "Desconocido"}</span>
