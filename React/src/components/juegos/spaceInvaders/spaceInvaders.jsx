@@ -183,9 +183,9 @@ function Space()
     function gameOver()
     {
         started = false;
-        if(puntuacion == enemigos.length*30 && player.health > 0)
+        for(let i=0; i<player.health; i++)
         {
-            puntuacion *= 1.5*player.health;
+            puntuacion *= 1.5;
         }
 
         setFinalScore(puntuacion);
