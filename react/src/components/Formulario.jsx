@@ -84,6 +84,8 @@ export default function Formulario() {
 
           // si hay un jugador, pasa directo
           if (jugadores === 1) {
+            localStorage.removeItem('jugador2_id');
+            localStorage.removeItem('jugador2_nombre');
             navigate("/pantallajuegos");
           }
           // si son dos, espera al otro
@@ -122,7 +124,6 @@ export default function Formulario() {
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
-      {/* Selector de jugadores */}
       <div className="flex items-center gap-6 mb-8">
         <button
           onClick={() => setJugadores(1)}
@@ -142,7 +143,6 @@ export default function Formulario() {
         </button>
       </div>
 
-      {/* Formularios */}
       <div
         className={`flex ${jugadores === 2 ? "flex-row gap-10" : "flex-col"} items-center justify-center`}
       >
@@ -220,7 +220,6 @@ export default function Formulario() {
               </button>
             </form>
 
-            {/* Botón para cambiar modo por jugador */}
             <button
               onClick={() => {
                 setModo((prev) =>
