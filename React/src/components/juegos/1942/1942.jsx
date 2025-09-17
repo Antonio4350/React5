@@ -527,7 +527,7 @@ function Guerra()
         players = n;
     }
 
-//    if(localStorage.getItem('jugador1_id') != null)
+    if(localStorage.getItem('jugador1_id') != null)
     {
         return (  
             <div ref={gameContainer} className="relative w-full h-full flex flex-row items-center gap-10"> 
@@ -551,7 +551,7 @@ function Guerra()
             </div>
         );
     }
-/*    else
+    else
     {
         return (
             <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -561,7 +561,7 @@ function Guerra()
                 </div>
             </div>
         );
-    }*/
+    }
 }
 
 export default Guerra;
