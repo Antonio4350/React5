@@ -48,22 +48,22 @@ const Arriba = () => {
   return (
     <header className="flex justify-between items-center fixed top-0 left-0 w-full bg-black text-white p-4 shadow-md z-100">
       <div className="flex items-center gap-2">
-        <span className="text-green-400">Jugador 1:</span>
-        <span>{jugador1 || "Desconocido"}</span>
+        <span className="text-green-400 px-6 py-3  font-bold rounded border-2  select-none">Jugador 1:  <span>{jugador1 || "Desconectado"}</span></span>
+  
       </div>
 
       {/* Conditionally render the navigation links */}
       {!isFormPage && (
         <div className="flex items-center gap-4">
-          <a className="hover:text-red-500 transition" onClick={cerrarSesion} style={{ cursor: "pointer" }}>Cerrar sesion</a>
-          <a href="/pantallajuegos" className="hover:text-gray-500 transition">Juegos</a>
-          <a href="/ranking" className="hover:text-gray-500 transition">Ranking</a>
+          <a href="/pantallajuegos" className="hover:text-gray-500 transition px-6 py-3  font-bold rounded border-2  select-none">Juegos</a>
+            <a className="hover:text-red-500 transition px-6 py-3  font-bold rounded border-2  select-none" onClick={cerrarSesion} style={{ cursor: "pointer" }}>Cerrar sesion</a>
+          <a href="/ranking" className="hover:text-gray-500 transition px-6 py-3  font-bold rounded border-2  select-none">Ranking</a>
         </div>
       )}
 
       <div className="flex items-center gap-2">
-        <span className="text-purple-400">Jugador 2:</span>
-        <span>{jugador2 || "Desconectado"}</span>
+        <span className="text-purple-400 px-6 py-3  font-bold rounded border-2  select-none">Jugador 2: <span>{jugador2 || "Desconectado"}</span></span>
+       
       </div>
     </header>
   );

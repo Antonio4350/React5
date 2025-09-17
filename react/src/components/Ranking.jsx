@@ -52,7 +52,7 @@ export default function Ranking({ idUsuario }) {
 
         {/* Top Space */}
         <div className="bg-black/80 border-4 border-white p-4 shadow-lg retro-text">
-          <h2 className="text-2xl font-bold text-center  text-white mb-4 neon-space">Top 10 Space</h2>
+          <h2 className="text-2xl font-bold text-center  text-white mb-4 neon-space  select-none">Top 10 Space</h2>
  
           <ul className="space-y-2">
             {mejoresSpace.map((fila, i) => (
@@ -66,7 +66,7 @@ export default function Ranking({ idUsuario }) {
 
         {/* Top Guerra 1942 */}
         <div className="bg-black/80 border-4 border-white p-4 shadow-lg retro-text">
-          <h2 className="text-2xl font-bold mb-4 text-center neon-1942">Top 10 Guerra (1942)</h2>
+          <h2 className="text-2xl font-bold mb-4 text-center neon-1942  select-none">Top 10 Guerra (1942)</h2>
           <ul className="space-y-2">
             {mejoresGuerra.map((fila, i) => (
               <li key={i} className="flex justify-between text-lg">
@@ -79,10 +79,10 @@ export default function Ranking({ idUsuario }) {
 
         {/* Top Multijugador */}
         <div className="bg-black/80 border-4 border-white p-4 shadow-lg retro-text">
-          <h2 className="text-2xl font-bold mb-4 text-center neon-mul">Top 10 Multijugador</h2>
+          <h2 className="text-2xl font-bold mb-4 text-center neon-mul  select-none">Top 10 Multijugador</h2>
           <ul className="space-y-2">
             {mejoresMulti.map((fila, i) => (
-              <li key={i} className="flex justify-between text-lg">
+              <li key={i} className="flex justify-between text-lg  select-none">
                 <span>{i + 1}. {fila.jugador1} y {fila.jugador2}</span>
                 <span>{fila.puntuacion}</span>
               </li>

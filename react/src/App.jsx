@@ -1,10 +1,10 @@
 import Formulario from "./components/Formulario.jsx";
 import Space from "./components/juegos/spaceInvaders/spaceInvaders.jsx";
 import Guerra from "./components/juegos/1942/1942.jsx";
-import Fondo from "./components/Fondo.jsx";
+import Fondo from "./components/fondo.jsx";
 import Header from "./components/arriba.jsx";
 import PantallaJuegos from "./components/PantallaJuegos.jsx";
-import Ranking from "./components/ranking.jsx";
+import Ranking from "./components/Ranking.jsx";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 

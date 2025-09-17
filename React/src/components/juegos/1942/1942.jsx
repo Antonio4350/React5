@@ -554,15 +554,15 @@ function Guerra()
                 
         <div className=" flex items-center justify-center ">
   <div className="relative flex flex-col items-center justify-center">
-    <img className="w-[70%] h-auto object-contain" id="imagenfondo" src="1942fondo.png" alt="fondo"/>
+    <img className="w-[70%] h-auto object-contain fondo" id="imagenfondo" src="1942fondo.png" alt="fondo"/>
 
     <div className="absolute flex flex-row gap-10">
-      <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> 1 Jugador </button>
+      <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition select-none"> 1 Jugador </button>
 
       {localStorage.getItem('jugador2_id') != null ? (
-        <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> 2 Jugadores</button>
+        <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2"  className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition select-none"> 2 Jugadores</button>
     ) : (
-        <button onClick={() => { window.location.href = "/"; }} id="startButton2" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> Agregar Jugador</button>)}
+        <button onClick={() => { window.location.href = "/"; }} id="startButton2"  className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition select-none"> Agregar Jugador</button>)}
     </div>
   </div>
 </div>

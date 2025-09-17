@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Fondo from "./Fondo.jsx";
+import Fondo from "./fondo.jsx";
 
 export default function PantallaJuegos() {
   return (
@@ -9,7 +9,7 @@ export default function PantallaJuegos() {
 
       <div className="relative z-10 bg-black/80 border-4 border-white p-6 rounded-lg shadow-lg text-center max-w-3xl">
 
-  <h1 className="text-3xl font-bold text-white mb-6 neon-text">SELECCIONA UN JUEGO</h1>
+  <h1 className="text-3xl font-bold text-white mb-6 neon-text  select-none">SELECCIONA UN JUEGO</h1>
 
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

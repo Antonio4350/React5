@@ -20,7 +20,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 9999;
+    z-index: 99999;
   }
 
   /* líneas horizontales */
@@ -67,11 +67,20 @@
   }
 }
 
-.tutorial
-{
+.tutorial{
   width: 50vw;
   display: none;
+ 
+  -webkit-user-drag: none; /* Evita arrastrar en navegadores WebKit */
+  -webkit-user-drag: none;       /* Evita arrastrar */
+  -webkit-user-select: none; 
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;       /* Evita seleccionar */
+  pointer-events: none;    /* Desactiva cualquier interacción (clics, hover, etc.) */
 }
+
+
 
 
   .neon-text {

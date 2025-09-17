@@ -385,9 +385,9 @@ function Space()
             <div className="relative w-full h-full flex items-center justify-center">
                 <img className="fondo w-full h-full object-cover" id="imagenfondo" src="fondoSpace.png" alt="fondo"/> 
                 <div className="absolute flex flex-row gap-10">
-                    <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> Jugador 1 </button>
+                    <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition select-none"> Jugador 1 </button>
                     {localStorage.getItem('jugador2_id') != null ? (
-                    <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> Jugador 2 </button>
+                    <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2"  className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition select-none"> Jugador 2 </button>
                     ) : (<div style={{display:"none"}}></div>)}
                 </div>
             </div>
