@@ -74,13 +74,41 @@ app.get("/usuarios/:id", async (req, res) => {
 // ----------------- Space -----------------
 app.post("/space", async (req, res) => {
   const { idusuario, puntuacion } = req.body;
-  if (!idusuario || puntuacion == null)
+
+  if (!idusuario || puntuacion == null) {
     return res.status(400).json({ error: "Faltan datos" });
+  }
+
   try {
-    const result = await pool.query(
-      "INSERT INTO space (idusuario, puntuacion) VALUES ($1, $2) RETURNING *",
-      [idusuario, puntuacion]
+    // Buscar si ya existe un registro con ese idusuario
+    const existe = await pool.query(
+      "SELECT * FROM space WHERE idusuario = $1 LIMIT 1",
+      [idusuario]
     );
+
+    let result;
+
+    if (existe.rows.length > 0) {
+      const actual = existe.rows[0];
+
+      if (puntuacion > actual.puntuacion) {
+        // Actualizar solo si la nueva puntuación es mayor
+        result = await pool.query(
+          "UPDATE space SET puntuacion = $1 WHERE idusuario = $2 RETURNING *",
+          [puntuacion, idusuario]
+        );
+      } else {
+        // No actualizar, devolver el registro existente
+        result = existe;
+      }
+    } else {
+      // Insertar si no existe
+      result = await pool.query(
+        "INSERT INTO space (idusuario, puntuacion) VALUES ($1, $2) RETURNING *",
+        [idusuario, puntuacion]
+      );
+    }
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error(err);
@@ -120,13 +148,41 @@ app.get("/space/user/:id", async (req, res) => {
 // ----------------- Guerra -----------------
 app.post("/guerra", async (req, res) => {
   const { idusuario, puntuacion } = req.body;
-  if (!idusuario || puntuacion == null)
+
+  if (!idusuario || puntuacion == null) {
     return res.status(400).json({ error: "Faltan datos" });
+  }
+
   try {
-    const result = await pool.query(
-      "INSERT INTO guerra (idusuario, puntuacion) VALUES ($1, $2) RETURNING *",
-      [idusuario, puntuacion]
+    // Verificar si ya existe un registro con ese usuario
+    const existe = await pool.query(
+      "SELECT * FROM guerra WHERE idusuario = $1 LIMIT 1",
+      [idusuario]
     );
+
+    let result;
+
+    if (existe.rows.length > 0) {
+      const actual = existe.rows[0];
+
+      if (puntuacion > actual.puntuacion) {
+        // Actualizar solo si la nueva puntuación es mayor
+        result = await pool.query(
+          "UPDATE guerra SET puntuacion = $1 WHERE idusuario = $2 RETURNING *",
+          [puntuacion, idusuario]
+        );
+      } else {
+        // No actualizar, devolver el registro existente
+        result = existe;
+      }
+    } else {
+      // Insertar si no existe
+      result = await pool.query(
+        "INSERT INTO guerra (idusuario, puntuacion) VALUES ($1, $2) RETURNING *",
+        [idusuario, puntuacion]
+      );
+    }
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error(err);
@@ -166,13 +222,41 @@ app.get("/guerra/user/:id", async (req, res) => {
 // ----------------- Guerra Multijugador -----------------
 app.post("/guerramultijugador", async (req, res) => {
   const { idusuario, idsocio, puntuacion } = req.body;
-  if (!idusuario || !idsocio || puntuacion == null)
+
+  if (!idusuario || !idsocio || puntuacion == null) {
     return res.status(400).json({ error: "Faltan datos" });
+  }
+
   try {
-    const result = await pool.query(
-      "INSERT INTO guerramultijugador (idusuario, idsocio, puntuacion) VALUES ($1, $2, $3) RETURNING *",
-      [idusuario, idsocio, puntuacion]
+    // Verificar si ya existe la pareja de jugadores
+    const existe = await pool.query(
+      "SELECT * FROM guerramultijugador WHERE idusuario = $1 AND idsocio = $2 LIMIT 1",
+      [idusuario, idsocio]
     );
+
+    let result;
+
+    if (existe.rows.length > 0) {
+      const actual = existe.rows[0];
+
+      if (puntuacion > actual.puntuacion) {
+        // Actualizar solo si la nueva puntuación es mayor
+        result = await pool.query(
+          "UPDATE guerramultijugador SET puntuacion = $1 WHERE idusuario = $2 AND idsocio = $3 RETURNING *",
+          [puntuacion, idusuario, idsocio]
+        );
+      } else {
+        // No actualizar, devolver el registro existente
+        result = existe;
+      }
+    } else {
+      // Insertar si no existe esa pareja
+      result = await pool.query(
+        "INSERT INTO guerramultijugador (idusuario, idsocio, puntuacion) VALUES ($1, $2, $3) RETURNING *",
+        [idusuario, idsocio, puntuacion]
+      );
+    }
+
     res.json(result.rows[0]);
   } catch (err) {
     console.error(err);

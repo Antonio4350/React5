@@ -125,7 +125,7 @@ function Guerra()
 
     function disparar(direction, x, y, isplayer)
     {
-        if(isplayer) proyectiles.push(new proyectil(2, 2, x, y, "green", direction, isplayer));
+        if(isplayer) proyectiles.push(new proyectil(2, 2, x, y, "lime", direction, isplayer));
         else proyectiles.push(new proyectil(2, 2, x, y, "red", direction, isplayer));
     }
 
