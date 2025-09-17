@@ -33,7 +33,7 @@ const Arriba = () => {
     fetchJugadores();
 
     // Configurar intervalo cada 5 segundos (5000 ms)
-    const interval = setInterval(fetchJugadores, 5000);
+    const interval = setInterval(fetchJugadores, 1000);
 
     // Limpiar el intervalo al desmontar
     return () => clearInterval(interval);
@@ -47,7 +47,7 @@ const Arriba = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <a href="/" className="hover:text-red-500 transition">Inicio de Sesion</a>
+        <a href="/" className="hover:text-red-500 transition">Cerrar sesion</a>
         <a href="/pantallajuegos" className="hover:text-gray-500 transition">Juegos</a>
         <a href="/ranking" className="hover:text-gray-500 transition">Ranking</a>
       </div>
