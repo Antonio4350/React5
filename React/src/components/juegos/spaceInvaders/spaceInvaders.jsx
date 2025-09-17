@@ -13,7 +13,7 @@ function Space()
     const gameContainer = useRef(null);
     const audioRef = useRef(null);
     const [isMuted, setIsMuted] = useState(false);
-
+    //variables
     let proyectiles = [];
     let barreras = [];
 
@@ -28,19 +28,20 @@ function Space()
     let canvas = new gameArea(300, 200);
     let interval = null; // Cambiado para que sea nulo al inicio
     let started = false;
-    let dirx = 0;
     let puntuacion;
     let jugadorActual = 0;
 
     let izquierda = false;
     let derecha = false;
 
+    //esto es para pasar los parametro de la puntuacion y la pantalla gameover
     const [gameOverScreen, setGameOverScreen] = useState(false);
     const [finalScore, setFinalScore] = useState(0);
+    //audio
     const disparo = new Audio('./audios/laser.mp3');
     const explosion = new Audio('./audios/explosion.mp3');
 
-    // Usa useEffect para manejar la lógica del juego
+    // para iniciar los imputs y la musica
     useEffect(() => {
         document.addEventListener('keydown', teclasApretadas);
         document.addEventListener('keyup', teclasSoltadas);
@@ -51,14 +52,14 @@ function Space()
         disparo.volume = 0.1;
         explosion.volume = 0.1;
         
-        // Limpia el intervalo y los listeners cuando el componente se desmonte
+        // Limpia el intervalo y los listeners cuando el componente se desmonte, de vuelve los valores 
         return () => {
             clearInterval(interval);
             document.removeEventListener('keydown', teclasApretadas);
             document.removeEventListener('keyup', teclasSoltadas);
         };
     }, []);
-
+    // silenciar el audio 
     function toggleMute() 
     {
         if (audioRef.current) 
@@ -90,6 +91,7 @@ function Space()
             tutos[i].style.display = "block";
         }
         
+        //todos estas variables son para iniciar el juego
         proyectiles = [];
         barreras = [];
         enemigos = [];
@@ -102,7 +104,6 @@ function Space()
         player = new nave(10, 10, 60, 180, [`./player_${jugadorActual-1}.png`], 5, false);
         canvas = new gameArea(300, 200);
 
-        dirx=0;
         puntuacion = 0;
 
         // Llama a canvas.start() y le pasa la referencia del contenedor
@@ -110,11 +111,12 @@ function Space()
         document.getElementById('startButton1').style.display = 'none';
         if(document.getElementById('startButton2') != null) document.getElementById('startButton2').style.display = 'none';
 
+        //aca se crean los enemigos una ves iniciado el canvas
         for(let i=0; i<filasEnemigos; i++)
         {
             for(let j=0; j<columnasEnemigos; j++)
             {
-                if(i==0) enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_2a.png', './space_2b.png', './space_2c.png'], 2, (i==filasEnemigos-1), 3, 60));
+                if(i==0) enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_2a.png', './space_2b.png', './space_2c.png'], 2, (i==filasEnemigos-1), 3, 60));//tamaño, posicion x y, sprite, vida, fila, cadencia, puntuacion
                 else if(i==2) enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_1a.png', './space_1b.png', './space_1c.png'], 1, (i==filasEnemigos-1), 2, 40));
                 else enemigos.push(new enemigo(10, 10, 20+(20*j), 20+(15*i), ['./space_0a.png', './space_0b.png', './space_0c.png'], 1, (i==filasEnemigos-1), 5, 30));
                 
@@ -135,28 +137,31 @@ function Space()
         {
             for(let i=0; i<20; i++)
             {
-                if(i<1 || i>18) barreras.push(new objeto(2, 2, x+(i*2), 160+(j*2), "green"));
+                if(i<1 || i>18) barreras.push(new objeto(2, 2, x+(i*2), 160+(j*2), "green"));// forma, tamaño, posicion X e Y, color
                 if(i==1 || i==18) barreras.push(new objeto(2, 2, x+(i*2), 160+(j*2)-2, "green"));
                 if(i>1 && i<18) barreras.push(new objeto(2, 2, x+(i*2), 160+(j*2)-4, "green"));
             }
         }
     }
-
+    //aca se crea la bala la cual la usan el jugador y los enemigos
     function disparar(direction, x, y)
     {
         proyectiles.push(new proyectil(2, 5, x, y, "white", direction));
     }
 
+    //aca en este funcion se detecta a que direccion va la bala, y dependiendo de si va arriba o abajo, y detecta con que deveria colisionar
     function detectarColision(pro)
     {
+        //se detecta si se coliciono con la barrera
         for(let i=0; i<barreras.length; i++) if(barreras[i].colisiona(pro)) return true;
-
+        //si lo disparo el enemigo
         if(pro.direction == 1)
         {
             if(player.colisiona(pro)) return true;
         }
         else
         {
+            //revisa si coliciona con un enemigo 
             for(let i=0; i<enemigos.length; i++)
             {
                 if(enemigos[i].destroyed == false)
@@ -176,7 +181,7 @@ function Space()
             }
         }
     }
-
+    //revisa la posicion relativa de acada enemigo, para ver quien es el que esta abajo 
     function reorganizarEnemigos()
     {
         for(let i=enemigos.length-1; i>=0; i--)
@@ -195,6 +200,7 @@ function Space()
         }
     }
 
+    //aca se ve si un enemigo puede disparar o no, viendo si tiene uno abajo
     function disparoEnemigos()
     {
         reorganizarEnemigos();
@@ -207,14 +213,17 @@ function Space()
         }
     }
 
+    //aca dibuja una nave por cada vida del jugador
     function drawStats()
     {
         for(let i=0; i<player.health; i++) player.drawStatic(5+(i*15), 5, canvas);
     }
 
+    
     function gameOver()
     {
         started = false;
+        //multiplica la puntuacion por la cantidad de vidas
         for(let i=0; i<player.health; i++)
         {
             puntuacion *= 1.5;
@@ -223,8 +232,8 @@ function Space()
         setFinalScore(puntuacion);
         setGameOverScreen(true);
 
-        const idUsuario = localStorage.getItem(`jugador${jugadorActual}_id`);
         // Envía el score al backend
+        const idUsuario = localStorage.getItem(`jugador${jugadorActual}_id`);
         fetch(`${CONFIG.API_URL}/space`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -235,12 +244,14 @@ function Space()
         .catch(err => console.error(err));
     }
 
+    //
     function updateGameArea()
     {
         if(started)
         {
             canvas.clear();
             drawStats();
+            //aca es para mover el jugador
             if(derecha == true) player.move(1, 0, canvas);
             else if(izquierda == true) player.move(-1, 0, canvas);
             player.update(canvas);
@@ -253,7 +264,7 @@ function Space()
                 proyectiles[i].move(0, proyectiles[i].direction*2, canvas);
                 proyectiles[i].update(canvas);
 
-                //Revisa si alguno impacto
+                //revisa si alguno impacto
                 if(proyectiles[i].y < 5 || proyectiles[i].y > canvas.height-15 || detectarColision(proyectiles[i]))
                 {
                     proyectiles.splice(i,1);
@@ -261,7 +272,7 @@ function Space()
                 }
             }
 
-            //Actualiza la direccion de los enemigos
+            //actualiza la direccion de los enemigos
             for(let i=0; i<enemigos.length; i++)
             {
                 if(enemigos[i].destroyed == false)
@@ -280,9 +291,10 @@ function Space()
                 }
             }
 
-            //Aumenta en uno los relojes
+            //aumenta en uno los relojes, cada 15 frame podes volver a disparar
             canvas.frameNo++;
             canvas.shot++;
+
             //Si paso mas de 20 frames mueve a los enemigos
             if(canvas.frameNo >= 20)
             {
@@ -301,7 +313,7 @@ function Space()
                 disparoEnemigos();
             }
 
-            //Revisa a que enemigos actualizar en pantalla
+            //aca se revisa cuantos enemigos estan en pantalla, y se muestran
             let restantes = 0;
             for(let i=0; i<enemigos.length; i++)
             {             

@@ -11,12 +11,14 @@ import CONFIG from '../../../config';
 
 function Guerra() 
 {
+   //
     const gameContainer = useRef(null);
     const [gameOverScreen, setGameOverScreen] = useState(false);
     const [finalScore, setFinalScore] = useState(0);
 
     const audioRef = useRef(null);
     const [isMuted, setIsMuted] = useState(false);
+   //
 
     let player;
     let player2 = null;
@@ -37,7 +39,7 @@ function Guerra()
 
     const disparo = new Audio('./audios/laser.mp3');
     const explosion = new Audio('./audios/explosion.mp3');
-
+// funcionalidad que afecta a la pagina
     useEffect(() => {
         document.addEventListener('keydown', teclasApretadas);
         document.addEventListener('keyup', teclasSoltadas);
@@ -59,7 +61,7 @@ function Guerra()
             }
         };
     }, []);
-
+//silenciar la musica 
     function toggleMute() 
     {
         if (audioRef.current) 
@@ -68,7 +70,7 @@ function Guerra()
             setIsMuted(!isMuted);
         }
     }
-
+//funcionamiento del canbas 
     function startGame()
     {
         audioRef.current.play();
@@ -91,7 +93,7 @@ function Guerra()
         {
             tutos[i].style.display = "block";
         }
-
+//jugadores ve si hay uno o dos jugadores en el juego
         if(players == 1)
         {
             player = new jugador(10, 145, 95, './player_0.png');
@@ -101,12 +103,14 @@ function Guerra()
             player = new jugador(10, 130, 95, './player_0.png');
             player2 = new jugador(10, 160, 95, './player_1.png');
         }
+        //esto define el tamaño del canvas
         canvas = new gameArea(300, 200);
+        //aca se llama a los proyectiles y con su cooldown de disparo
         proyectiles = [];
         cooldown = 15;
 
         crearEscuadrones();
-
+        //cuando se inicia se muestra la animacion del fondo
         canvas.start(gameContainer.current, 'warCanvas'); 
         document.getElementById('startButton1').style.display = 'none';
         document.getElementById('startButton2').style.display = 'none';
@@ -130,6 +134,7 @@ function Guerra()
 
     function disparar(direction, x, y, isplayer, p)
     {
+        //colores del disparo 
         if(isplayer)
         {
             if(p == 1) proyectiles.push(new proyectil(2, 2, x, y, "lime", direction, isplayer));
@@ -153,7 +158,7 @@ function Guerra()
 
             if(player.nave.health > 0) player.updatePlayer(canvas);
             if(player2 != null) if(player2.nave.health > 0) player2.updatePlayer(canvas);
-
+            //si la vida del jugador 1 es menor a 0 pierde, en caso de que juegan los dos si ambos tienen 0 vidas pierden
             if(players == 1)
             {
                 if(player.nave.health <= 0) gameOver();
@@ -162,7 +167,7 @@ function Guerra()
             {
                 if(player.nave.health <= 0 && player2.nave.health <= 0) gameOver();
             }
-
+            // esto es para la invicibilidad del jugador
             if(player.inviciTempo < invincibilidad && player.nave.health > 0)
             {
                 if(colisionEnemigos(player.nave) == true)
@@ -182,7 +187,7 @@ function Guerra()
                     }
                 }
             }
-
+            //
             let escuadronesActivos = 0;
             for(let i=0; i<escuadrones.length; i++)
             {

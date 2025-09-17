@@ -4,7 +4,7 @@
   --crt-green: rgba(0, 255, 0, 0.6);
   --crt-blue: rgba(0, 0, 255, 0.6);
 }
-
+/*efecto crt*/
 .fondovi {
   position: relative;
   min-height: 100vh;
