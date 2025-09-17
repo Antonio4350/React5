@@ -6,6 +6,7 @@ import { gameArea } from "../canvas";
 import { useEffect, useRef } from 'react';
 import { useState } from "react";
 import PantallaPerdiste from '../../pantallaPerdiste';
+import CONFIG from '../../../config';
 
 function Guerra() 
 {
@@ -67,7 +68,7 @@ function Guerra()
             player2 = new jugador(10, 160, 95, './space_3.png');
         }
         canvas = new gameArea(300, 200);
-
+        musica.play();
         proyectiles = [];
         cooldown = 15;
 
@@ -307,6 +308,35 @@ function Guerra()
 
         setFinalScore(puntuacion);
         setGameOverScreen(true);
+
+        if(players == 1)
+        {
+            const idUsuario = localStorage.getItem("jugador1_id");
+        
+            // Envía el score al backend
+            fetch(`${CONFIG.API_URL}/guerra`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idusuario: idUsuario, puntuacion: puntuacion })
+            })
+            .then(res => res.json())
+            .then(data => console.log("Score guardado:", data))
+            .catch(err => console.error(err));
+        }
+        else
+        {
+            const idUsuario = localStorage.getItem("jugador1_id");
+            const idUsuario2 = localStorage.getItem("jugador2_id");
+            // Envía el score al backend
+            fetch(`${CONFIG.API_URL}/space`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idusuario: idUsuario, puntuacion: puntuacion })
+            })
+            .then(res => res.json())
+            .then(data => console.log("Score guardado:", data))
+            .catch(err => console.error(err));
+        }
     }
 
     const pressedKeys = new Set();
