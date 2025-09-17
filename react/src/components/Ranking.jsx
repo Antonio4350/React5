@@ -10,34 +10,21 @@ export default function Ranking({ idUsuario }) {
   const [usuarioMulti, setUsuarioMulti] = useState(null);
 
   useEffect(() => {
-    // Función para obtener top y actualizar nombres si hace falta
-    async function fetchTop(url, setState, isMulti = false) {
+    // Función para obtener top
+    async function fetchTop(url, setState) {
       try {
         const res = await fetch(url);
-        let data = await res.json();
-
-        if (isMulti) {
-          // Para multijugador traemos nombres de ambos jugadores
-          data = await Promise.all(
-            data.map(async (fila) => {
-              const res1 = await fetch(`${CONFIG.API_URL}/usuarios/${fila.idusuario}`);
-              const res2 = await fetch(`${CONFIG.API_URL}/usuarios/${fila.idsocio}`);
-              const jugador1 = res1.ok ? (await res1.json()).nombre : "Desconocido";
-              const jugador2 = res2.ok ? (await res2.json()).nombre : "Desconocido";
-              return { ...fila, jugador1, jugador2 };
-            })
-          );
-        }
-
+        const data = await res.json();
         setState(data);
       } catch {
         setState([]);
       }
     }
 
+    // ahora cada endpoint ya devuelve los nombres correctos
     fetchTop(`${CONFIG.API_URL}/space/top`, setMejoresSpace);
     fetchTop(`${CONFIG.API_URL}/guerra/top`, setMejoresGuerra);
-    fetchTop(`${CONFIG.API_URL}/guerramultijugador/top`, setMejoresMulti, true);
+    fetchTop(`${CONFIG.API_URL}/guerramultijugador/top`, setMejoresMulti);
 
     if (idUsuario) {
       // Solo guardar la puntuación del usuario actual
