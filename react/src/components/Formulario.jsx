@@ -123,13 +123,13 @@ export default function Formulario() {
   };
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+    <div className="absolute inset-0 flex flex-col items-center justify-center z-20" style={{paddingTop:"50px"}}>
       <div className="flex items-center gap-6 mb-8">
         <button
           onClick={() => setJugadores(1)}
           className={`px-6 py-3 font-bold border-2 border-white rounded-xl retro-text transition-all duration-300 ${
             jugadores === 1 ? "bg-white text-black" : "bg-black text-white"
-          }`}
+          } hover:bg-white hover:text-black`}
         >
           1 Jugador
         </button>
@@ -137,7 +137,7 @@ export default function Formulario() {
           onClick={() => setJugadores(2)}
           className={`px-6 py-3 font-bold border-2 border-white rounded-xl retro-text transition-all duration-300 ${
             jugadores === 2 ? "bg-white text-black" : "bg-black text-white"
-          }`}
+          } hover:bg-white hover:text-black`}
         >
           2 Jugadores
         </button>
