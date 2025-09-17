@@ -106,7 +106,6 @@ function Space()
         puntuacion = 0;
 
         // Llama a canvas.start() y le pasa la referencia del contenedor
-        // Esto asegura que el canvas se cree dentro del div de React
         canvas.start(gameContainer.current, 'spaceCanvas'); 
         document.getElementById('startButton1').style.display = 'none';
         if(document.getElementById('startButton2') != null) document.getElementById('startButton2').style.display = 'none';

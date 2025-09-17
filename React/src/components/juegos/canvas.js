@@ -6,7 +6,7 @@ export class gameArea
         this.height = height;
     }
 
-    start(container, id) // Acepta un contenedor como argumento
+    start(container, id)
     {
         this.canvas = document.createElement("canvas");
         this.canvas.id = id;

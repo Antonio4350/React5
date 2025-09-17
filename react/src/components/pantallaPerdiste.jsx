@@ -13,7 +13,6 @@ export default function PantallaPerdiste({ score, onRestart }) {
         <p className="text-xl text-white mb-2">Puntaje:</p>
         <p className="text-4xl font-extrabold text-white mb-6">{score}</p>
 
-        {/* Botones uno al lado del otro */}
         <div className="flex justify-center gap-4">
           <button
             onClick={onRestart}
