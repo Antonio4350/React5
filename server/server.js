@@ -25,7 +25,7 @@ app.post("/usuarios", async (req, res) => {
       [nombre, password]
     );
 
-    res.json(result.rows[0]);
+    res.json(result.rows[0]); // {id, nombre}
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "No se pudo comunicar con la base de datos" });
@@ -43,8 +43,9 @@ app.post("/login", async (req, res) => {
       [nombre, password]
     );
 
-    if (result.rows.length === 0)
+    if (result.rows.length === 0) {
       return res.status(404).json({ error: "Usuario inexistente" });
+    }
 
     res.json({ id: result.rows[0].id, nombre: result.rows[0].nombre });
   } catch (err) {
@@ -60,10 +61,10 @@ app.get("/usuarios/:id", async (req, res) => {
       "SELECT id, nombre FROM usuarios WHERE id = $1",
       [id]
     );
-    if (result.rows.length === 0)
+    if (result.rows.length === 0) {
       return res.status(404).json({ error: "Usuario no encontrado" });
-
-    res.json(result.rows[0]);
+    }
+    res.json(result.rows[0]); // {id, nombre}
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error consultando usuario" });
@@ -75,7 +76,6 @@ app.post("/space", async (req, res) => {
   const { idusuario, puntuacion } = req.body;
   if (!idusuario || puntuacion == null)
     return res.status(400).json({ error: "Faltan datos" });
-
   try {
     const result = await pool.query(
       "INSERT INTO space (idusuario, puntuacion) VALUES ($1, $2) RETURNING *",
@@ -107,10 +107,10 @@ app.get("/space/top", async (req, res) => {
 app.get("/space/user/:id", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT puntuacion FROM space WHERE idusuario = $1 ORDER BY puntuacion DESC LIMIT 1",
+      "SELECT puntuacion, fecha FROM space WHERE idusuario = $1 ORDER BY fecha DESC",
       [req.params.id]
     );
-    res.json(result.rows.length ? result.rows[0] : null);
+    res.json(result.rows.length ? result.rows : null);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error consultando puntuaciones" });
@@ -122,7 +122,6 @@ app.post("/guerra", async (req, res) => {
   const { idusuario, puntuacion } = req.body;
   if (!idusuario || puntuacion == null)
     return res.status(400).json({ error: "Faltan datos" });
-
   try {
     const result = await pool.query(
       "INSERT INTO guerra (idusuario, puntuacion) VALUES ($1, $2) RETURNING *",
@@ -154,10 +153,10 @@ app.get("/guerra/top", async (req, res) => {
 app.get("/guerra/user/:id", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT puntuacion FROM guerra WHERE idusuario = $1 ORDER BY puntuacion DESC LIMIT 1",
+      "SELECT puntuacion, fecha FROM guerra WHERE idusuario = $1 ORDER BY fecha DESC",
       [req.params.id]
     );
-    res.json(result.rows.length ? result.rows[0] : null);
+    res.json(result.rows.length ? result.rows : null);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error consultando puntuaciones" });
@@ -169,7 +168,6 @@ app.post("/guerramultijugador", async (req, res) => {
   const { idusuario, idsocio, puntuacion } = req.body;
   if (!idusuario || !idsocio || puntuacion == null)
     return res.status(400).json({ error: "Faltan datos" });
-
   try {
     const result = await pool.query(
       "INSERT INTO guerramultijugador (idusuario, idsocio, puntuacion) VALUES ($1, $2, $3) RETURNING *",
@@ -201,16 +199,11 @@ app.get("/guerramultijugador/top", async (req, res) => {
 
 app.get("/guerramultijugador/user/:id", async (req, res) => {
   try {
-    const result = await pool.query(`
-      SELECT g.puntuacion, u2.nombre AS socio
-      FROM guerramultijugador g
-      JOIN usuarios u2 ON u2.id = g.idsocio
-      WHERE g.idusuario = $1
-      ORDER BY g.puntuacion DESC
-      LIMIT 1
-    `, [req.params.id]);
-
-    res.json(result.rows.length ? result.rows[0] : null);
+    const result = await pool.query(
+      "SELECT idsocio, puntuacion, fecha FROM guerramultijugador WHERE idusuario = $1 ORDER BY fecha DESC",
+      [req.params.id]
+    );
+    res.json(result.rows.length ? result.rows : null);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error consultando puntuaciones multijugador" });
