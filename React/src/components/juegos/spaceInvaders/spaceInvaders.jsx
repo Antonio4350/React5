@@ -377,6 +377,7 @@ function Space()
                     className="z-20 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition botonMusica">
                     {isMuted ? "🔈" : "🔊"}
                 </button>
+                
             <div className="relative w-full h-full flex items-center justify-center">
                 <img className="fondo w-full h-full object-cover" id="imagenfondo" src="fondoSpace.png" alt="fondo"/> 
                 <button onClick={startGame} id="startButton" className="absolute px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar </button>

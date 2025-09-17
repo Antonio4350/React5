@@ -5,7 +5,6 @@
   --crt-blue: rgba(0, 0, 255, 0.6);
 }
 
-
 .fondovi {
   position: relative;
   min-height: 100vh;
@@ -72,4 +71,8 @@
 {
   width: 50vw;
   display: none;
+}
+
+.botonMusica{
+  
 }

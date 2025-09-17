@@ -543,24 +543,33 @@ function Guerra()
         </div>
         
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center justify-center">
-            <img className="fondo w-full h-full object-cover" id="imagenfondo" src="1942fondo.png" alt="fondo"/> 
+          
             <audio ref={audioRef} loop><source src="./audios/space.wav" type="audio/mpeg" />Tu navegador no soporta audio en HTML5</audio>
                 <button 
                     onClick={toggleMute} 
                     className="z-20 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition botonMusica">
                     {isMuted ? "🔈" : "🔊"}
                 </button>
-            <div className="relative w-full h-full flex items-center justify-center">
-                <div className="flex flex-row items-center gap-10">
-                <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1" className="relative z-10 bg-black text-white font-bold px-12 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
-                {
-                    localStorage.getItem('jugador2_id') != null ? 
-                    (<button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>)
-                    : 
-                    (<button onClick={() => { window.location.href = "/"; }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">Agregar Jugador</button>)
-                }
-                </div>
-            </div>
+                
+        <div className=" flex items-center justify-center ">
+  {/* Contenedor de imagen + botones */}
+  <div className="relative flex flex-col items-center justify-center">
+    {/* Imagen centrada */}
+    <img className="w-[70%] h-auto object-contain" id="imagenfondo" src="1942fondo.png" alt="fondo"/>
+
+    {/* Botones centrados sobre la imagen */}
+    <div className="absolute flex flex-row gap-10">
+      <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> 1 Jugador </button>
+
+      {localStorage.getItem('jugador2_id') != null ? (
+        <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> 2 Jugadores</button>
+    ) : (
+        <button onClick={() => { window.location.href = "/"; }} id="startButton2" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> Agregar Jugador</button>)}
+    </div>
+  </div>
+</div>
+
+              
             
             {gameOverScreen && (<PantallaPerdiste score={finalScore}
                 onRestart={() => {
