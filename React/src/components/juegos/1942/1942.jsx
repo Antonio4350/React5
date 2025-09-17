@@ -68,7 +68,6 @@ function Guerra()
             player2 = new jugador(10, 160, 95, './space_3.png');
         }
         canvas = new gameArea(300, 200);
-        musica.play();
         proyectiles = [];
         cooldown = 15;
 
@@ -328,10 +327,10 @@ function Guerra()
             const idUsuario = localStorage.getItem("jugador1_id");
             const idUsuario2 = localStorage.getItem("jugador2_id");
             // Envía el score al backend
-            fetch(`${CONFIG.API_URL}/space`, {
+            fetch(`${CONFIG.API_URL}/guerramultijugador`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ idusuario: idUsuario, puntuacion: puntuacion })
+                body: JSON.stringify({ idusuario: idUsuario,idsocio: idUsuario2, puntuacion: puntuacion })
             })
             .then(res => res.json())
             .then(data => console.log("Score guardado:", data))

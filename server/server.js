@@ -153,6 +153,57 @@ app.get("/guerra/user/:id", async (req, res) => {
   }
 });
 
+// Guardar puntuación Guerra Multijugador (1942)
+app.post("/guerramultijugador", async (req, res) => {
+    const { idusuario, idsocio, puntuacion } = req.body;
+    if (!idusuario || !idsocio || puntuacion == null)
+        return res.status(400).json({ error: "Faltan datos" });
+
+    try {
+        const result = await pool.query(
+            "INSERT INTO guerramultijugador (idusuario, idsocio, puntuacion) VALUES ($1, $2, $3) RETURNING *",
+            [idusuario, idsocio, puntuacion]
+        );
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error guardando puntuación multijugador" });
+    }
+});
+
+// Top 10 Guerra Multijugador
+app.get("/guerramultijugador/top", async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT u1.nombre AS jugador1, u2.nombre AS jugador2, g.puntuacion
+            FROM guerramultijugador g
+            JOIN usuarios u1 ON u1.id = g.idusuario
+            JOIN usuarios u2 ON u2.id = g.idsocio
+            ORDER BY g.puntuacion DESC
+            LIMIT 10
+        `);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error consultando top multijugador" });
+    }
+});
+
+// Puntuaciones de un usuario en Guerra Multijugador
+app.get("/guerramultijugador/user/:id", async (req, res) => {
+    try {
+        const result = await pool.query(
+            "SELECT idsocio, puntuacion, fecha FROM guerramultijugador WHERE idusuario = $1 ORDER BY fecha DESC",
+            [req.params.id]
+        );
+        res.json(result.rows.length ? result.rows : null);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error consultando puntuaciones multijugador" });
+    }
+});
+
+
 app.listen(3001, () =>
   console.log("Servidor escuchando en http://localhost:3001")
 );
