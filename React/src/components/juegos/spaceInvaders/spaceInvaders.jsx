@@ -63,6 +63,11 @@ function Space()
         catch (e) {
             console.error("Error al reiniciar el juego:", e);
         }
+        const tutos = document.querySelectorAll(".tutorial");
+        for (let i=0; i <tutos.length; i++) 
+        {
+            tutos[i].style.display = "block";
+        }
         
         proyectiles = [];
         barreras = [];
@@ -347,17 +352,14 @@ function Space()
     // Contenedor principal para toda la interfaz, organizado en una fila
     <div className="relative w-full h-full flex items-center justify-center">
 
-        {/*imagen de la izquierda*/}
-        <div className="hidden sm:flex flex-col items-center p-4"><img src="tutorial_0.png" alt="Controles de tutorial 0"/> </div>
+        <div className="hidden sm:flex flex-col items-center p-4"><img src="tutorial_0.png" alt="Controles de tutorial 0" className='tutorial'/> </div>
 
-        {/* El contenedor principal del juego y el botón "Jugar" */}
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center justify-center">
             <div className="relative w-full h-full flex items-center justify-center">
                 <img className="fondo w-full h-full object-cover" id="imagenfondo" src="fondoSpace.png" alt="fondo"/> 
                 <button onClick={startGame} id="startButton" className="absolute px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar </button>
             </div>
             
-            {/* Botones para móviles (se mantienen abajo y se ocultan en pantallas grandes) */}
             <div className="flex gap-4 sm:hidden mb-4 ">
                 <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={izquierdaTrue} onTouchEnd={izquierdaFalse}>Izquierda</button>
                 <button className="relative z-10 px-4 py-2 bg-gray-700 text-white rounded-lg" onTouchStart={derechaTrue} onTouchEnd={derechaFalse}>Derecha</button>
@@ -365,8 +367,7 @@ function Space()
             </div>
         </div>
 
-              {/*imagen de la derecha*/}
-        <div className="hidden sm:flex flex-col items-center p-4"> <img src='tutorial_1.png' alt="Controles de tutorial 1"/> </div>
+        <div className="hidden sm:flex flex-col items-center p-4"> <img src='tutorial_0.png' alt="Controles de tutorial 1" className='tutorial'/> </div>
 
        
         {gameOverScreen && (<PantallaPerdiste score={finalScore}
