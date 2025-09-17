@@ -1,0 +1,281 @@
+{
+  "guerra": [
+    {
+      "id": 1,
+      "idusuario": 1,
+      "puntuacion": 410,
+      "fecha": "2025-09-17T07:16:56.697Z"
+    },
+    {
+      "id": 2,
+      "idusuario": 1,
+      "puntuacion": 240,
+      "fecha": "2025-09-17T08:10:53.765Z"
+    },
+    {
+      "id": 3,
+      "idusuario": 3,
+      "puntuacion": 2250,
+      "fecha": "2025-09-17T08:17:41.790Z"
+    },
+    {
+      "id": 4,
+      "idusuario": 3,
+      "puntuacion": 0,
+      "fecha": "2025-09-17T08:26:01.497Z"
+    },
+    {
+      "id": 5,
+      "idusuario": 3,
+      "puntuacion": 760,
+      "fecha": "2025-09-17T08:54:55.205Z"
+    },
+    {
+      "id": 6,
+      "idusuario": 3,
+      "puntuacion": 770,
+      "fecha": "2025-09-17T08:55:45.336Z"
+    },
+    {
+      "id": 7,
+      "idusuario": 3,
+      "puntuacion": 140,
+      "fecha": "2025-09-17T09:36:41.277Z"
+    },
+    {
+      "id": 8,
+      "idusuario": 1,
+      "puntuacion": 0,
+      "fecha": "2025-09-17T10:01:52.493Z"
+    },
+    {
+      "id": 9,
+      "idusuario": 1,
+      "puntuacion": 60,
+      "fecha": "2025-09-17T10:02:21.387Z"
+    },
+    {
+      "id": 10,
+      "idusuario": 3,
+      "puntuacion": 0,
+      "fecha": "2025-09-17T07:24:37.749Z"
+    },
+    {
+      "id": 11,
+      "idusuario": 3,
+      "puntuacion": 170,
+      "fecha": "2025-09-17T07:39:43.997Z"
+    },
+    {
+      "id": 12,
+      "idusuario": 3,
+      "puntuacion": 270,
+      "fecha": "2025-09-17T08:13:59.406Z"
+    },
+    {
+      "id": 13,
+      "idusuario": 3,
+      "puntuacion": 0,
+      "fecha": "2025-09-17T08:19:04.944Z"
+    },
+    {
+      "id": 14,
+      "idusuario": 2,
+      "puntuacion": 9000210,
+      "fecha": "2025-09-17T18:05:09.190Z"
+    },
+    {
+      "id": 15,
+      "idusuario": 2,
+      "puntuacion": 9000210,
+      "fecha": "2025-09-17T18:05:37.031Z"
+    }
+  ],
+  "guerramultijugador": [
+    {
+      "id": 1,
+      "idusuario": 1,
+      "idsocio": 2,
+      "puntuacion": 70,
+      "fecha": "2025-09-17T07:19:21.531Z"
+    },
+    {
+      "id": 2,
+      "idusuario": 1,
+      "idsocio": 3,
+      "puntuacion": 360,
+      "fecha": "2025-09-17T09:48:18.357Z"
+    },
+    {
+      "id": 3,
+      "idusuario": 2,
+      "idsocio": 3,
+      "puntuacion": 780,
+      "fecha": "2025-09-17T18:15:46.309Z"
+    }
+  ],
+  "space": [
+    {
+      "id": 1,
+      "idusuario": 1,
+      "puntuacion": 250,
+      "fecha": "2025-09-17T06:30:13.581Z"
+    },
+    {
+      "id": 14,
+      "idusuario": 1,
+      "puntuacion": 840,
+      "fecha": "2025-09-17T09:00:16.808Z"
+    },
+    {
+      "id": 16,
+      "idusuario": 1,
+      "puntuacion": 90,
+      "fecha": "2025-09-17T09:34:53.197Z"
+    },
+    {
+      "id": 27,
+      "idusuario": 2,
+      "puntuacion": 100029,
+      "fecha": "2025-09-17T18:07:39.406Z"
+    },
+    {
+      "id": 2,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T07:46:36.276Z"
+    },
+    {
+      "id": 3,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:06:26.360Z"
+    },
+    {
+      "id": 4,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:20:27.671Z"
+    },
+    {
+      "id": 5,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:46:44.958Z"
+    },
+    {
+      "id": 6,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:46:44.962Z"
+    },
+    {
+      "id": 7,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:46:45.178Z"
+    },
+    {
+      "id": 8,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:46:45.177Z"
+    },
+    {
+      "id": 9,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:46:45.499Z"
+    },
+    {
+      "id": 10,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:46:45.499Z"
+    },
+    {
+      "id": 11,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:46:45.503Z"
+    },
+    {
+      "id": 12,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:46:45.533Z"
+    },
+    {
+      "id": 13,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:53:55.317Z"
+    },
+    {
+      "id": 15,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T09:34:04.267Z"
+    },
+    {
+      "id": 17,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T09:36:57.806Z"
+    },
+    {
+      "id": 18,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:13:29.188Z"
+    },
+    {
+      "id": 19,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:14:00.044Z"
+    },
+    {
+      "id": 20,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:14:00.047Z"
+    },
+    {
+      "id": 21,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:14:00.200Z"
+    },
+    {
+      "id": 22,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:14:00.204Z"
+    },
+    {
+      "id": 23,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:14:01.008Z"
+    },
+    {
+      "id": 24,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:14:01.013Z"
+    },
+    {
+      "id": 25,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:14:01.015Z"
+    },
+    {
+      "id": 26,
+      "idusuario": 3,
+      "puntuacion": 9999,
+      "fecha": "2025-09-17T08:14:01.024Z"
+    }
+  ]
+}

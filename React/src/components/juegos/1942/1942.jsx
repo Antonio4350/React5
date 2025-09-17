@@ -549,12 +549,9 @@ function Guerra()
 
                 
         <div className=" flex items-center justify-center ">
-  {/* Contenedor de imagen + botones */}
   <div className="relative flex flex-col items-center justify-center">
-    {/* Imagen centrada */}
     <img className="w-[70%] h-auto object-contain" id="imagenfondo" src="1942fondo.png" alt="fondo"/>
 
-    {/* Botones centrados sobre la imagen */}
     <div className="absolute flex flex-row gap-10">
       <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> 1 Jugador </button>
 

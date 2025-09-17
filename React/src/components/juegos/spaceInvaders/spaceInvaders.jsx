@@ -28,8 +28,9 @@ function Space()
     let canvas = new gameArea(300, 200);
     let interval = null; // Cambiado para que sea nulo al inicio
     let started = false;
-    let dirx=0;
-    let puntuacion = 0;
+    let dirx = 0;
+    let puntuacion;
+    let jugadorActual = 0;
 
     let izquierda = false;
     let derecha = false;
@@ -103,7 +104,8 @@ function Space()
         // Llama a canvas.start() y le pasa la referencia del contenedor
         // Esto asegura que el canvas se cree dentro del div de React
         canvas.start(gameContainer.current, 'spaceCanvas'); 
-        document.getElementById('startButton').style.display = 'none';
+        document.getElementById('startButton1').style.display = 'none';
+        document.getElementById('startButton2').style.display = 'none';
 
         for(let i=0; i<filasEnemigos; i++)
         {
@@ -212,7 +214,7 @@ function Space()
         setFinalScore(puntuacion);
         setGameOverScreen(true);
 
-        const idUsuario = localStorage.getItem("jugador1_id");
+        const idUsuario = localStorage.getItem(`jugador${jugadorActual}_id`);
         // Envía el score al backend
         fetch(`${CONFIG.API_URL}/space`, {
             method: "POST",
@@ -362,22 +364,32 @@ function Space()
     function izquierdaTrue(){izquierda = true;}
     function izquierdaFalse(){izquierda = false;}
 
+    function setPlayer(n)
+    {
+        jugadorActual = n;
+    }
+
     if(localStorage.getItem('jugador1_id') != null)
     {
      return (
     // Contenedor principal para toda la interfaz, organizado en una fila
     <div className="relative w-full h-full flex items-center justify-center">
 
-        <div className="hidden sm:flex flex-col items-center p-4"><img src="tutorial_0.png" alt="Controles de tutorial 0" className='tutorial'/> </div>
+        <div className="hidden sm:flex flex-col items-center p-4"><img src="tutorial_2.png" alt="Controles de tutorial 0" className='tutorial'/> </div>
 
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center justify-center">
             <audio ref={audioRef} loop><source src="./audios/space.wav" type="audio/mpeg" />Tu navegador no soporta audio en HTML5</audio>
             
-                      <button onClick={toggleMute} className="fixed bottom-4 left-4 z-50 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition">{isMuted ? "🔈" : "🔊"}</button>
+            <button onClick={toggleMute} className="fixed bottom-4 left-4 z-50 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition">{isMuted ? "🔈" : "🔊"}</button>
                 
             <div className="relative w-full h-full flex items-center justify-center">
                 <img className="fondo w-full h-full object-cover" id="imagenfondo" src="fondoSpace.png" alt="fondo"/> 
-                <button onClick={startGame} id="startButton" className="absolute px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar </button>
+                <div className="absolute flex flex-row gap-10">
+                    <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> Jugador 1 </button>
+                    {localStorage.getItem('jugador2_id') != null ? (
+                    <button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition"> Jugador 2 </button>
+                    ) : (<div style={{display:"none"}}></div>)}
+                </div>
             </div>
             
             <div className="flex gap-4 sm:hidden mb-4 ">
@@ -387,7 +399,7 @@ function Space()
             </div>
         </div>
 
-        <div className="hidden sm:flex flex-col items-center p-4"> <img src='tutorial_0.png' alt="Controles de tutorial 1" className='tutorial'/> </div>
+        <div className="hidden sm:flex flex-col items-center p-4"> <img src='tutorial_2.png' alt="Controles de tutorial 1" className='tutorial'/> </div>
 
        
         {gameOverScreen && (<PantallaPerdiste score={finalScore}
