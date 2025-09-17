@@ -372,11 +372,8 @@ function Space()
 
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center justify-center">
             <audio ref={audioRef} loop><source src="./audios/space.wav" type="audio/mpeg" />Tu navegador no soporta audio en HTML5</audio>
-            <button 
-                    onClick={toggleMute} 
-                    className="z-20 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition botonMusica">
-                    {isMuted ? "🔈" : "🔊"}
-                </button>
+            
+                      <button onClick={toggleMute} className="fixed bottom-4 left-4 z-50 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition">{isMuted ? "🔈" : "🔊"}</button>
                 
             <div className="relative w-full h-full flex items-center justify-center">
                 <img className="fondo w-full h-full object-cover" id="imagenfondo" src="fondoSpace.png" alt="fondo"/> 
