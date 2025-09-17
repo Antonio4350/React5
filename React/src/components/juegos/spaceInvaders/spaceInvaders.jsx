@@ -95,7 +95,7 @@ function Space()
         filasEnemigos = 5
         velocidad = 1;
 
-        player = new nave(10, 10, 60, 180, ['./space_3.png'], 5, false);
+        player = new nave(10, 10, 60, 180, [`./player_${jugadorActual-1}.png`], 5, false);
         canvas = new gameArea(300, 200);
 
         dirx=0;
@@ -105,7 +105,7 @@ function Space()
         // Esto asegura que el canvas se cree dentro del div de React
         canvas.start(gameContainer.current, 'spaceCanvas'); 
         document.getElementById('startButton1').style.display = 'none';
-        document.getElementById('startButton2').style.display = 'none';
+        if(document.getElementById('startButton2') != null) document.getElementById('startButton2').style.display = 'none';
 
         for(let i=0; i<filasEnemigos; i++)
         {

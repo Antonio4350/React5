@@ -89,12 +89,12 @@ function Guerra()
 
         if(players == 1)
         {
-            player = new jugador(10, 145, 95, './space_3.png');
+            player = new jugador(10, 145, 95, './player_0.png');
         }
         if(players == 2)
         {
-            player = new jugador(10, 130, 95, './space_3.png');
-            player2 = new jugador(10, 160, 95, './space_3.png');
+            player = new jugador(10, 130, 95, './player_0.png');
+            player2 = new jugador(10, 160, 95, './player_1.png');
         }
         canvas = new gameArea(300, 200);
         proyectiles = [];
@@ -123,9 +123,13 @@ function Guerra()
         escuadrones.push(new formacion(new boss(50), [[0,1], [0,0], [-1,0], [1,0], [-1,0], [0,0], [0,-1]], [100, 200, 100, 200, 100, 200, 100], 110, -80, true));
     }
 
-    function disparar(direction, x, y, isplayer)
+    function disparar(direction, x, y, isplayer, p)
     {
-        if(isplayer) proyectiles.push(new proyectil(2, 2, x, y, "lime", direction, isplayer));
+        if(isplayer)
+        {
+            if(p == 1) proyectiles.push(new proyectil(2, 2, x, y, "lime", direction, isplayer));
+            else proyectiles.push(new proyectil(2, 2, x, y, "violet", direction, isplayer));
+        }
         else proyectiles.push(new proyectil(2, 2, x, y, "red", direction, isplayer));
     }
 
@@ -467,28 +471,28 @@ function Guerra()
                 switch(dificultad)
                 {
                     case 1:
-                        disparar([0,-1], player.nave.x+4, player.nave.y, true);
+                        disparar([0,-1], player.nave.x+4, player.nave.y, true,1);
                         break;
                     case 2:
-                        disparar([0,-1], player.nave.x+1, player.nave.y, true);
-                        disparar([0,-1], player.nave.x+7, player.nave.y, true);
+                        disparar([0,-1], player.nave.x+1, player.nave.y, true,1);
+                        disparar([0,-1], player.nave.x+7, player.nave.y, true,1);
                         break;
                     case 3:
-                        disparar([-0.3,-1], player.nave.x, player.nave.y, true);
-                        disparar([0,-1], player.nave.x+4, player.nave.y, true);
-                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true);
+                        disparar([-0.3,-1], player.nave.x, player.nave.y, true,1);
+                        disparar([0,-1], player.nave.x+4, player.nave.y, true,1);
+                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true,1);
                         break;
                     case 4:
-                        disparar([-0.3,-1], player.nave.x, player.nave.y, true);
-                        disparar([0,-1], player.nave.x+1, player.nave.y, true);
-                        disparar([0,-1], player.nave.x+7, player.nave.y, true);
-                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true);
+                        disparar([-0.3,-1], player.nave.x, player.nave.y, true,1);
+                        disparar([0,-1], player.nave.x+1, player.nave.y, true,1);
+                        disparar([0,-1], player.nave.x+7, player.nave.y, true,1);
+                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true,1);
                         break;
                     default:
-                        disparar([-0.3,-1], player.nave.x, player.nave.y, true);
-                        disparar([0,-1], player.nave.x+1, player.nave.y, true);
-                        disparar([0,-1], player.nave.x+7, player.nave.y, true);
-                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true);
+                        disparar([-0.3,-1], player.nave.x, player.nave.y, true,1);
+                        disparar([0,-1], player.nave.x+1, player.nave.y, true,1);
+                        disparar([0,-1], player.nave.x+7, player.nave.y, true,1);
+                        disparar([0.3,-1], player.nave.x+8, player.nave.y, true,1);
                         break;
                 }
             }
@@ -501,28 +505,28 @@ function Guerra()
                 switch(dificultad)
                 {
                     case 1:
-                        disparar([0,-1], player2.nave.x+4, player2.nave.y, true);
+                        disparar([0,-1], player2.nave.x+4, player2.nave.y, true,2);
                         break;
                     case 2:
-                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true);
-                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true);
+                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true,2);
+                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true,2);
                         break;
                     case 3:
-                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true);
-                        disparar([0,-1], player2.nave.x+4, player2.nave.y, true);
-                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true);
+                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true,2);
+                        disparar([0,-1], player2.nave.x+4, player2.nave.y, true,2);
+                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true,2);
                         break;
                     case 4:
-                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true);
-                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true);
-                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true);
-                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true);
+                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true,2);
+                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true,2);
+                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true,2);
+                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true,2);
                         break;
                     default:
-                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true);
-                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true);
-                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true);
-                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true);
+                        disparar([-0.3,-1], player2.nave.x, player2.nave.y, true,2);
+                        disparar([0,-1], player2.nave.x+1, player2.nave.y, true,2);
+                        disparar([0,-1], player2.nave.x+7, player2.nave.y, true,2);
+                        disparar([0.3,-1], player2.nave.x+8, player2.nave.y, true,2);
                         break;
                 }
             }
