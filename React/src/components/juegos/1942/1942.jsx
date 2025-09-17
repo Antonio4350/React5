@@ -547,7 +547,7 @@ function Guerra()
             <audio ref={audioRef} loop><source src="./audios/space.wav" type="audio/mpeg" />Tu navegador no soporta audio en HTML5</audio>
                 <button 
                     onClick={toggleMute} 
-                    className="z-20 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition">
+                    className="z-20 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition botonMusica">
                     {isMuted ? "🔈" : "🔊"}
                 </button>
             <div className="relative w-full h-full flex items-center justify-center">

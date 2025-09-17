@@ -11,6 +11,8 @@ function Space()
 {
     // Crea una referencia para el elemento del DOM que contendrá el canvas
     const gameContainer = useRef(null);
+    const audioRef = useRef(null);
+    const [isMuted, setIsMuted] = useState(false);
 
     let proyectiles = [];
     let barreras = [];
@@ -39,6 +41,10 @@ function Space()
     useEffect(() => {
         document.addEventListener('keydown', teclasApretadas);
         document.addEventListener('keyup', teclasSoltadas);
+
+        if (audioRef.current) {
+            audioRef.current.volume = 0.5;
+        }
         
         // Limpia el intervalo y los listeners cuando el componente se desmonte
         return () => {
@@ -48,8 +54,18 @@ function Space()
         };
     }, []);
 
+    function toggleMute() 
+    {
+        if (audioRef.current) 
+        {
+            audioRef.current.muted = !isMuted;
+            setIsMuted(!isMuted);
+        }
+    }
+
     function startGame()
     {
+        audioRef.current.play();
         document.getElementById("imagenfondo").style.display="none";
         try
         {
@@ -355,6 +371,12 @@ function Space()
         <div className="hidden sm:flex flex-col items-center p-4"><img src="tutorial_0.png" alt="Controles de tutorial 0" className='tutorial'/> </div>
 
         <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center justify-center">
+            <audio ref={audioRef} loop><source src="./audios/space.wav" type="audio/mpeg" />Tu navegador no soporta audio en HTML5</audio>
+            <button 
+                    onClick={toggleMute} 
+                    className="z-20 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition botonMusica">
+                    {isMuted ? "🔈" : "🔊"}
+                </button>
             <div className="relative w-full h-full flex items-center justify-center">
                 <img className="fondo w-full h-full object-cover" id="imagenfondo" src="fondoSpace.png" alt="fondo"/> 
                 <button onClick={startGame} id="startButton" className="absolute px-6 py-3 bg-black text-white font-bold rounded border-2 border-white hover:bg-white hover:text-black transition">Jugar </button>
