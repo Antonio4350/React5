@@ -527,30 +527,54 @@ function Guerra()
         players = n;
     }
 
-    if(localStorage.getItem('jugador1_id') != null)
-    {
-        return (  
-            <div ref={gameContainer} className="relative w-full h-full flex flex-row items-center gap-10"> 
-                <audio ref={audioRef} loop><source src="./audios/space.wav" type="audio/mpeg" />Tu navegador no soporta audio en HTML5</audio>
+    if(localStorage.getItem('jugador1_id') != null) {
+       return ( 
+    // Contenedor principal para toda la interfaz, organizado en una fila
+    <div className="relative w-full h-full flex items-center justify-center gap-10">
+
+        {/* Contenedor izquierdo para las imágenes de los controles */}
+        <div className="hidden sm:flex flex-col items-center p-4">
+            <img src="tutorial_0.png" alt="Controles del jugador 1"/> 
+        </div>
+        
+        {/* Contenedor central que contendrá los botones de inicio del juego o el canvas */}
+        <div ref={gameContainer} className="relative w-full h-full flex flex-col items-center justify-center">
+             <audio ref={audioRef} loop><source src="./audios/space.wav" type="audio/mpeg" />Tu navegador no soporta audio en HTML5</audio>
                 <button 
                     onClick={toggleMute} 
                     className="z-20 bg-gray-800 text-white font-bold px-6 py-2 rounded border-2 border-white hover:bg-white hover:text-black transition">
                     {isMuted ? "🔈" : "🔊"}
                 </button>
-                <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1"  className="relative z-10 bg-black text-white font-bold px-12 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
+              
+            {/* Si no hay canvas, muestra los botones de inicio */}
+            <div className="flex flex-row items-center gap-10">
+                <button onClick={() => { setPlayer(1); startGame(); }} id="startButton1" className="relative z-10 bg-black text-white font-bold px-12 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">1 Jugador</button>
+
                 {
-                    localStorage.getItem('jugador2_id') != null ? (<button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>)
-                    : (
-                    <button onClick={() => { window.location.href = "/"; }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">Agregar Jugador</button>)
+                    localStorage.getItem('jugador2_id') != null ? 
+                    (<button onClick={() => { setPlayer(2); startGame(); }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">2 Jugadores</button>)
+                    : 
+                    (<button onClick={() => { window.location.href = "/"; }} id="startButton2" className="relative z-10 bg-black text-white font-bold px-10 py-3 rounded border-2 border-white hover:bg-white hover:text-black transition">Agregar Jugador</button>)
                 }
-                {gameOverScreen && (<PantallaPerdiste score={finalScore}
-                    onRestart={() => {
+            </div>
+            
+            {/* Pantalla de "Perdiste" */}
+            {gameOverScreen && (<PantallaPerdiste score={finalScore}
+                onRestart={() => {
                     setGameOverScreen(false);
                     window.location.reload();
                 }}/>)}
-            </div>
-        );
+        </div>
+        
+        {/* Contenedor derecho (opcional, si quieres duplicar las imágenes) */}
+        <div className="hidden sm:flex flex-col items-center p-4"> <img src='tutorial_1.png' alt="Controles del jugador 2"/>
+</div>
+    </div>
+    
+);
+       
     }
+    
     else
     {
         return (
@@ -565,3 +589,5 @@ function Guerra()
 }
 
 export default Guerra;
+
+ 
