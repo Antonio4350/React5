@@ -39,6 +39,15 @@ const Arriba = () => {
     return () => clearInterval(interval);
   }, []);
 
+  function cerrarSesion()
+  {
+    localStorage.removeItem('jugador1_id');
+    localStorage.removeItem('jugador1_nombre');
+    localStorage.removeItem('jugador2_id');
+    localStorage.removeItem('jugador2_nombre');
+    window.location.href = "/";
+  }
+
   return (
     <header className="flex justify-between items-center fixed top-0 left-0 w-full bg-black text-white p-4 shadow-md z-50">
       <div className="flex items-center gap-2">
@@ -47,7 +56,7 @@ const Arriba = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <a href="/" className="hover:text-red-500 transition">Cerrar sesion</a>
+        <a className="hover:text-red-500 transition" onClick={cerrarSesion} style={{cursor: "pointer"}}>Cerrar sesion</a>
         <a href="/pantallajuegos" className="hover:text-gray-500 transition">Juegos</a>
         <a href="/ranking" className="hover:text-gray-500 transition">Ranking</a>
       </div>
