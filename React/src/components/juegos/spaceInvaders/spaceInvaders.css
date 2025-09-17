@@ -11,6 +11,6 @@ canvas {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-      max-width: 100%;
-      height: auto;
+    max-width: 70%;
+    height: auto;
 }
